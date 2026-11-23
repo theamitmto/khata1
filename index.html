@@ -4083,9 +4083,9 @@
 
     <!-- Sticky Floating AdMob Bottom Anchor Banner -->
     <div id="admob-slot-bottom" class="hidden fixed bottom-16 left-0 right-0 z-40 px-2 sm:px-6 transition-all pointer-events-auto">
-        <div class="max-w-md mx-auto sm:max-w-xl rounded-2xl overflow-hidden text-center relative bg-white/95 dark:bg-neutral-900/95 border border-neutral-200 dark:border-neutral-800 shadow-lg p-1.5">
+        <div class="max-w-md mx-auto sm:max-w-xl rounded-2xl overflow-hidden text-center relative">
             <button onclick="document.getElementById('admob-slot-bottom').classList.add('hidden')" class="absolute top-1 right-2 w-6 h-6 rounded-full bg-black/60 text-white text-xs z-10 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            <div id="admob-bottom-container" class="flex items-center justify-center min-h-[52px]"></div>
+            <div id="admob-bottom-container" class="flex items-center justify-center"></div>
         </div>
     </div>
 
@@ -6252,20 +6252,21 @@
                             <div class="grid grid-cols-12 gap-2 items-center">
                                 <div class="col-span-3">
                                     <label class="block text-[9px] font-black uppercase text-neutral-400 mb-0.5">Qty</label>
-                                    <input type="number" step="any" min="0.01" value="${it.qty}" onchange="updateGroceryItemQty('${escapedId}', this.value)" class="w-full px-2 py-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-black text-center focus:outline-none focus:border-primary-500">
+                                    <input type="number" step="any" min="0.01" value="${it.qty}" onchange="updateGroceryItemQty('${escapedId}', this.value)" class="w-full p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-black text-center focus:outline-none focus:border-emerald-500">
                                 </div>
                                 <div class="col-span-4">
                                     <label class="block text-[9px] font-black uppercase text-neutral-400 mb-0.5">Unit</label>
-                                    <select onchange="updateGroceryItemUnit('${escapedId}', this.value)" class="w-full px-2 py-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-bold focus:outline-none focus:border-primary-500">
-                                        ${['Kg', 'Grams (gm)', 'Packets', 'Pieces (pcs)', 'Litre (L)'].map(u => `<option value="${u}" ${it.unit === u ? 'selected' : ''}>${u}</option>`).join('')}
+                                    <select onchange="updateGroceryItemUnit('${escapedId}', this.value)" class="w-full p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs font-bold focus:outline-none focus:border-emerald-500">
+                                        <option value="Kg" ${it.unit === 'Kg' ? 'selected' : ''}>Kg</option>
+                                        <option value="Grams (gm)" ${it.unit === 'Grams (gm)' ? 'selected' : ''}>gm</option>
+                                        <option value="Packets" ${it.unit === 'Packets' ? 'selected' : ''}>Packet</option>
+                                        <option value="Pieces (pcs)" ${it.unit === 'Pieces (pcs)' ? 'selected' : ''}>pcs</option>
+                                        <option value="Litre (L)" ${it.unit === 'Litre (L)' ? 'selected' : ''}>Litre</option>
                                     </select>
                                 </div>
                                 <div class="col-span-5">
-                                    <label class="block text-[9px] font-black uppercase text-emerald-700 dark:text-emerald-300 mb-0.5">Price (₹)</label>
-                                    <div class="flex items-center px-2.5 py-2 rounded-xl bg-emerald-500/10 border border-emerald-400/50 focus-within:border-emerald-600">
-                                        <span class="font-black text-emerald-700 dark:text-emerald-300 mr-1">₹</span>
-                                        <input type="number" step="any" min="0" value="${Number(it.price) || 0}" onchange="updateGroceryItemPrice('${escapedId}', this.value)" class="w-full min-w-0 bg-transparent text-right text-xs font-black text-emerald-700 dark:text-emerald-300 focus:outline-none">
-                                    </div>
+                                    <label class="block text-[9px] font-black uppercase text-emerald-600 mb-0.5">Total Price (₹)</label>
+                                    <input type="number" step="any" min="0" value="${Number(it.price) || ''}" placeholder="0" onchange="updateGroceryItemPrice('${escapedId}', this.value)" class="w-full p-2 rounded-xl bg-emerald-500/10 border border-emerald-400/50 text-xs font-black text-emerald-700 dark:text-emerald-300 text-right focus:outline-none focus:border-emerald-600">
                                 </div>
                             </div>
                         </div>
@@ -10901,10 +10902,10 @@
                             ? adsterraFooter
                             : (effectiveFormat === 'native' ? adsterraFeed : adsterraTop));
 
-                        const sig = `${resolvedNet}|${effectiveFormat}|${widthStyle}|${heightPx}|${zCfg.showBorder}|${showSlotFrame}|${pubId}|${chosenSlotId}|${chosenAdsterraCode.slice(0, 40)}`;
+                        const sig = `${resolvedNet}|${effectiveFormat}|${widthStyle}|${heightPx}|${showSlotFrame}|${pubId}|${chosenSlotId}|${chosenAdsterraCode.slice(0, 40)}`;
                         container.classList.remove('hidden');
-                        container.className = 'rounded-3xl overflow-hidden shadow-md border border-neutral-200/80 dark:border-neutral-800/80 transition-all duration-300';
-                        container.style.cssText = `${widthStyle} min-height: ${heightPx}px; margin-top: 0.75rem; margin-bottom: 0.75rem; overflow: hidden; border-radius: 1.5rem; ${zCfg.showBorder === false ? 'border: none; box-shadow: none;' : ''}`;
+                        container.className = 'rounded-3xl overflow-hidden transition-all duration-300';
+                        container.style.cssText = `${widthStyle} margin-top: 0.75rem; margin-bottom: 0.75rem; overflow: hidden; border-radius: 1.5rem; background: transparent; border: none; box-shadow: none;`;
 
                         if (container.dataset.adSignature === sig) return;
                         container.dataset.adSignature = sig;
@@ -10916,15 +10917,15 @@
                             : container;
 
                         if (canUseCustomHtml || (canUseAdsterra && (!canUseAdMob || resolvedNet === 'adsterra' || (resolvedNet === 'hybrid' && chosenAdsterraCode && !chosenSlotId)))) {
-                            targetInner.innerHTML = `<div class="ad-slot-inner-host" style="width:100%; min-height:${heightPx}px; display:flex; align-items:center; justify-content:center;"></div>`;
+                            targetInner.innerHTML = `<div class="ad-slot-inner-host" style="width:100%; display:flex; align-items:center; justify-content:center;"></div>`;
                             const host = targetInner.querySelector('.ad-slot-inner-host') || targetInner;
                             renderSandboxedAdsterraFrame(host, chosenAdsterraCode);
                         } else if (canUseAdMob) {
                             if (customAdSenseHtml) {
-                                targetInner.innerHTML = `<div style="width:100%; min-height:${heightPx}px; display:flex; align-items:center; justify-content:center;">${customAdSenseHtml}</div>`;
+                                targetInner.innerHTML = `<div style="width:100%; display:flex; align-items:center; justify-content:center;">${customAdSenseHtml}</div>`;
                             } else if (pubId && chosenSlotId) {
                                 targetInner.innerHTML = `
-                                    <div style="width:100%; min-height:${heightPx}px; display:flex; align-items:center; justify-content:center;">
+                                    <div style="width:100%; display:flex; align-items:center; justify-content:center;">
                                         <ins class="adsbygoogle"
                                              style="display:block; width:100%; height:${heightPx}px;"
                                              data-ad-client="${pubId}"
@@ -10947,7 +10948,7 @@
                                 ? `window.open('${directUrl.replace(/'/g, "\\'")}', '_blank', 'noopener,noreferrer')`
                                 : `switchTab('${targetTab}')`;
                             targetInner.innerHTML = `
-                                <div onclick="${onBannerClick}" class="relative w-full bg-gradient-to-r ${refSlide?.gradient || 'from-primary-700 via-primary-600 to-emerald-600'} cursor-pointer overflow-hidden" style="height:${heightPx}px;">
+                                <div onclick="${onBannerClick}" class="relative w-full bg-gradient-to-r ${refSlide?.gradient || 'from-primary-700 via-primary-600 to-emerald-600'} cursor-pointer overflow-hidden rounded-3xl" style="height:${heightPx}px;">
                                     ${primaryImg ? `<img src="${primaryImg}" data-fallback="${fallbackImg}" alt="" class="w-full h-full object-cover object-center block" onerror="if(this.dataset.fallback && this.src!==this.dataset.fallback){this.src=this.dataset.fallback;}else{this.style.display='none';}">` : ''}
                                 </div>
                             `;
@@ -16468,9 +16469,9 @@ ${JSON.stringify(liveSnapshot)}`;
                     featureRules: {},
                     customFeatures: [],
                     plans: [
-                        { id: 'plan_monthly', name: 'Monthly Pro', price: 199, days: 30, badge: 'Popular', desc: 'Full access to all 9 modules + AI + PDF' },
-                        { id: 'plan_quarterly', name: 'Quarterly Pro', price: 499, days: 90, badge: 'Save 16%', desc: '90 days unlimited business & dairy access' },
-                        { id: 'plan_yearly', name: 'Annual Pro VIP', price: 1499, days: 365, badge: 'Best Value', desc: '1 year priority cloud sync & VIP support' }
+                        { id: 'plan_monthly', name: 'Monthly Pro', originalPrice: 299, price: 199, days: 30, badge: 'Popular', desc: 'Full access to all 9 modules + AI + PDF' },
+                        { id: 'plan_quarterly', name: 'Quarterly Pro', originalPrice: 699, price: 499, days: 90, badge: 'Save 29%', desc: '90 days unlimited business & dairy access' },
+                        { id: 'plan_yearly', name: 'Annual Pro VIP', originalPrice: 2499, price: 1499, days: 365, badge: 'Best Value', desc: '1 year priority cloud sync & VIP support' }
                     ],
                     userOverrides: {},
                     paymentRequests: []
@@ -16530,924 +16531,33 @@ ${JSON.stringify(liveSnapshot)}`;
                 sc.featurePaidMap[f.key] = !!sc.featureRules[f.key].isPaid;
             });
             if (!Array.isArray(sc.plans) || sc.plans.length === 0) {
-                sc.plans = [{ id: 'plan_monthly', name: 'Monthly Pro', price: 199, days: 30, badge: 'Pro', desc: 'All Pro Features Unlocked' }];
+                sc.plans = [{ id: 'plan_monthly', name: 'Monthly Pro', originalPrice: 299, price: 199, days: 30, badge: 'Pro', desc: 'All Pro Features Unlocked' }];
             }
+            sc.plans = sc.plans.map(pl => {
+                const offerP = Math.max(0, Number(pl.price) || 0);
+                const origP = Math.max(0, Number(pl.originalPrice) || 0);
+                return {
+                    ...pl,
+                    originalPrice: origP > offerP ? origP : 0,
+                    price: offerP
+                };
+            });
             if (!sc.userOverrides || typeof sc.userOverrides !== 'object') sc.userOverrides = {};
             if (!Array.isArray(sc.paymentRequests)) sc.paymentRequests = [];
             return sc;
         }
 
-        function checkSubscriptionQuota(kind) {
-            const sess = getAuthSession() || {};
-            if (!sess.isLoggedIn || sess.role === 'admin') return true;
-            if (getUserSubscriptionAccess().isPro) return true;
-            const sc = ensureSubscriptionConfig();
-            if (kind === 'entries') {
-                const rule = sc.featureRules?.transactions || {};
-                const ruleLimit = Number(rule.freeLimit);
-                const maxTx = ruleLimit > 0 ? ruleLimit : (Number(sc.freeTxLimit) || 25);
-                if ((appState.transactions || []).length >= maxTx) {
-                    showToast(rule.lockMessage || `Free Plan limit (${maxTx} entries) reached! Upgrade to Pro.`, 'error');
-                    openSubscriptionUpgradeModal('transactions');
-                    return false;
-                }
-            }
-            if (kind === 'customers') {
-                const rule = sc.featureRules?.udhar || {};
-                const ruleLimit = Number(rule.freeLimit);
-                const maxCust = ruleLimit > 0 ? ruleLimit : (Number(sc.freeCustLimit) || 5);
-                if ((appState.udharCustomers || []).length >= maxCust) {
-                    showToast(rule.lockMessage || `Free Plan limit (${maxCust} Udhar customers) reached! Upgrade to Pro.`, 'error');
-                    openSubscriptionUpgradeModal('udhar');
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        function updateSubscriptionStatusBadges() {
-            const access = getUserSubscriptionAccess();
-            const hdrBtn = document.getElementById('header-sub-badge-btn');
-            const hdrTxt = document.getElementById('header-sub-badge-text');
-            if (hdrBtn && hdrTxt) {
-                if (access.isPro) {
-                    hdrTxt.textContent = 'VIP Pro';
-                } else if (access.isPendingApproval) {
-                    hdrTxt.textContent = 'Approval Pending';
-                } else {
-                    hdrTxt.textContent = access.isExpired ? 'Renew Pro' : 'Get Pro';
-                }
-                hdrBtn.className = access.isPro
-                    ? 'px-3.5 py-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs font-black shadow-md shadow-emerald-500/25 flex items-center gap-1.5 transition active:scale-95'
-                    : (access.isPendingApproval
-                        ? 'px-3 py-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-black shadow-md flex items-center gap-1.5 transition active:scale-95'
-                        : 'px-3.5 py-2 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-black shadow-md shadow-amber-500/25 flex items-center gap-1.5 transition active:scale-95');
-            }
-
-            ['transactions', 'grocery', 'udhar', 'milk', 'vyapari', 'hub', 'analytics', 'ai'].forEach(fKey => {
-                const st = getFeatureAccessStatus(fKey);
-                const lockBadge = document.getElementById(`nav-lock-${fKey}`);
-                const navBtn = document.getElementById(`nav-btn-${fKey}`);
-                if (lockBadge) {
-                    lockBadge.classList.toggle('hidden', st.allowed);
-                    lockBadge.classList.toggle('flex', !st.allowed);
-                }
-                if (navBtn) {
-                    navBtn.classList.toggle('opacity-75', !st.allowed);
-                }
-                const menuItem = document.querySelector(`.menu-nav-item[data-menu-tab="${fKey}"]`);
-                if (menuItem) {
-                    let statusTag = menuItem.querySelector('.menu-feature-lock-pill');
-                    if (!statusTag) {
-                        statusTag = document.createElement('span');
-                        statusTag.className = 'menu-feature-lock-pill px-2 py-0.5 rounded-full text-[9px] font-black uppercase mr-1 flex-shrink-0';
-                        const chev = menuItem.querySelector('i.fa-chevron-right');
-                        if (chev && chev.parentElement) chev.parentElement.insertBefore(statusTag, chev);
-                    }
-                    if (!st.allowed) {
-                        statusTag.textContent = '🔒 Locked';
-                        statusTag.className = 'menu-feature-lock-pill px-2 py-0.5 rounded-full text-[9px] font-black uppercase mr-1 flex-shrink-0 bg-amber-500/20 text-amber-700 dark:text-amber-300';
-                    } else if (st.mode === 'demo') {
-                        statusTag.textContent = st.label;
-                        statusTag.className = 'menu-feature-lock-pill px-2 py-0.5 rounded-full text-[9px] font-black uppercase mr-1 flex-shrink-0 bg-indigo-500/15 text-indigo-600 dark:text-indigo-300';
-                    } else {
-                        statusTag.textContent = '';
-                        statusTag.className = 'menu-feature-lock-pill hidden';
-                    }
-                }
-            });
-
-            const menuTitle = document.getElementById('menu-sub-plan-title');
-            const menuSub = document.getElementById('menu-sub-plan-sub');
-            const menuPill = document.getElementById('menu-sub-plan-pill');
-            if (menuTitle) {
-                menuTitle.textContent = access.isPro
-                    ? (access.isVipFree ? 'NeoKhata VIP Pro (Unlimited)' : `VIP Pro • ${access.planName}`)
-                    : 'Get NeoKhata Pro Subscription';
-            }
-            if (menuSub) {
-                menuSub.textContent = access.isVipFree
-                    ? 'All Paid Features Unlocked Free • Lifetime VIP'
-                    : (access.isPendingApproval
-                        ? `⏳ UTR ${access.pendingUtr} submitted • Waiting for Admin Approval`
-                        : (access.expiresAt
-                            ? (access.isPro
-                                ? `⏱ Countdown: ${access.remainingDays}d Left (${formatLiveCountdown(access.remainingMs)})`
-                                : `Expired on ${new Date(access.expiresAt).toLocaleDateString('en-IN')} • Tap to Subscribe`)
-                            : 'Subscribe now to unlock all Pro features & unlimited limits'));
-            }
-            if (menuPill) {
-                menuPill.textContent = access.isPro ? (access.isVipFree ? 'VIP PRO' : `${access.remainingDays}D VIP`) : (access.isPendingApproval ? 'PENDING' : 'GET PRO');
-            }
-
-            const modalCountdown = document.getElementById('sub-modal-live-countdown-pill');
-            if (modalCountdown) {
-                modalCountdown.textContent = access.isVipFree
-                    ? 'VIP Unlimited'
-                    : (access.isPro ? `⏱ ${access.remainingDays}d Left (${formatLiveCountdown(access.remainingMs)})` : 'Free / Demo Mode');
-            }
-        }
-
-        let subscriptionCountdownInterval = null;
-        function startSubscriptionCountdownTicker() {
-            if (subscriptionCountdownInterval) clearInterval(subscriptionCountdownInterval);
-            updateSubscriptionStatusBadges();
-            subscriptionCountdownInterval = setInterval(() => {
-                updateSubscriptionStatusBadges();
-            }, 1000);
-        }
-
-        let selectedCheckoutPlanId = '';
-        let selectedCheckoutAmount = 199;
-        let selectedCheckoutPlanName = 'Monthly Pro';
-        let selectedCheckoutDays = 30;
-        let appliedCheckoutDiscountPct = 0;
-        let appliedCheckoutCouponCode = '';
-        let currentSubscriptionModalStep = 1;
-
-        function goToSubscriptionStep(stepNum) {
-            currentSubscriptionModalStep = stepNum === 2 ? 2 : 1;
-            const step1El = document.getElementById('sub-step-1-plans-page');
-            const step2El = document.getElementById('sub-step-2-checkout-page');
-            const pill1 = document.getElementById('sub-step-pill-1');
-            const pill2 = document.getElementById('sub-step-pill-2');
-
-            if (step1El) step1El.classList.toggle('hidden', currentSubscriptionModalStep !== 1);
-            if (step2El) step2El.classList.toggle('hidden', currentSubscriptionModalStep !== 2);
-
-            if (pill1 && pill2) {
-                pill1.className = currentSubscriptionModalStep === 1
-                    ? 'py-2 px-3 rounded-xl font-black text-[11px] flex items-center justify-center gap-2 bg-white dark:bg-neutral-900 text-primary-600 dark:text-primary-400 shadow-xs transition'
-                    : 'py-2 px-3 rounded-xl font-bold text-[11px] flex items-center justify-center gap-2 text-neutral-500 dark:text-neutral-400 transition';
-                pill2.className = currentSubscriptionModalStep === 2
-                    ? 'py-2 px-3 rounded-xl font-black text-[11px] flex items-center justify-center gap-2 bg-white dark:bg-neutral-900 text-primary-600 dark:text-primary-400 shadow-xs transition'
-                    : 'py-2 px-3 rounded-xl font-bold text-[11px] flex items-center justify-center gap-2 text-neutral-500 dark:text-neutral-400 transition';
-            }
-
-            if (currentSubscriptionModalStep === 2) {
-                populateSubscriberAutoDetails();
-                refreshSubscriptionCheckoutQr();
-            }
-        }
-
-        function populateSubscriberAutoDetails() {
-            const sess = getAuthSession() || {};
-            const name = getPrimaryUserName();
-            const phone = extractCleanPhone(sess.phone || appState.userProfile?.phone || '');
-            const email = sess.email || appState.userProfile?.email || getCurrentUserSubKey();
-            if (document.getElementById('sub-checkout-user-name')) document.getElementById('sub-checkout-user-name').textContent = name;
-            if (document.getElementById('sub-checkout-user-phone')) document.getElementById('sub-checkout-user-phone').textContent = phone ? `+91 ${phone}` : 'Not Linked';
-            if (document.getElementById('sub-checkout-user-email')) document.getElementById('sub-checkout-user-email').textContent = email;
-        }
-
-        function openSubscriptionUpgradeModal(lockedFeature = '', startStep = 1) {
-            const sc = ensureSubscriptionConfig();
-            const userKey = getCurrentUserSubKey();
-            const access = getUserSubscriptionAccess(userKey);
-            const ov = sc.userOverrides[userKey] || {};
-
-            const statusEl = document.getElementById('sub-modal-current-status');
-            if (statusEl) {
-                const subText = access.isPro && !access.isVipFree
-                    ? `${access.planName} • ${access.remainingDays} Days Left`
-                    : access.planName;
-                statusEl.textContent = lockedFeature
-                    ? `🔒 "${lockedFeature.toUpperCase()}" Locked • Current: ${subText}`
-                    : `Current Status: ${subText}`;
-            }
-
-            const offerBanner = document.getElementById('sub-modal-custom-offer-banner');
-            if (offerBanner) {
-                if (ov.vipFree) {
-                    offerBanner.classList.remove('hidden');
-                    offerBanner.textContent = '🎉 VIP Free Access is active on your account — all Pro features are unlocked!';
-                } else if (ov.customPrice !== undefined && ov.customPrice !== null && ov.customPrice !== '') {
-                    offerBanner.classList.remove('hidden');
-                    offerBanner.textContent = `⭐ Special Admin Offer: Custom Plan Price ₹${ov.customPrice} assigned to your account!`;
-                } else {
-                    offerBanner.classList.add('hidden');
-                }
-            }
-
-            const pillsBox = document.getElementById('sub-modal-feature-status-pills');
-            if (pillsBox) {
-                const allCatalog = [...SUBSCRIPTION_FEATURE_CATALOG, ...(sc.customFeatures || [])];
-                pillsBox.innerHTML = allCatalog.map(f => {
-                    const rule = sc.featureRules?.[f.key] || {};
-                    const st = getFeatureAccessStatus(f.key);
-                    const badgeCls = !st.allowed
-                        ? 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30'
-                        : (st.mode === 'demo'
-                            ? 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border-indigo-500/30'
-                            : 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30');
-                    const icon = !st.allowed ? '🔒' : (st.mode === 'demo' ? '⏳' : '✅');
-                    return `
-                        <div class="px-2.5 py-1.5 rounded-xl border ${badgeCls} flex items-center justify-between gap-1.5">
-                            <span class="font-bold truncate">${icon} ${rule.label || f.label}</span>
-                            <span class="font-black text-[9px] uppercase whitespace-nowrap">${st.label}</span>
-                        </div>
-                    `;
-                }).join('');
-            }
-
-            const plans = sc.plans || [];
-            if (!selectedCheckoutPlanId || !plans.some(p => p.id === selectedCheckoutPlanId)) {
-                const defaultPl = plans.find(p => p.id === ov.assignedPlanId) || plans[0];
-                if (defaultPl) {
-                    selectedCheckoutPlanId = defaultPl.id;
-                    selectedCheckoutPlanName = defaultPl.name;
-                    selectedCheckoutDays = Number(defaultPl.days) || 30;
-                    selectedCheckoutAmount = (ov.customPrice !== undefined && ov.customPrice !== null && ov.customPrice !== '')
-                        ? Number(ov.customPrice)
-                        : Number(defaultPl.price);
-                }
-            }
-
-            const plansGrid = document.getElementById('sub-modal-plans-grid');
-            if (plansGrid) {
-                plansGrid.innerHTML = plans.map(pl => {
-                    const isSelected = pl.id === selectedCheckoutPlanId;
-                    const effPrice = (ov.customPrice !== undefined && ov.customPrice !== null && ov.customPrice !== '' && (!ov.assignedPlanId || ov.assignedPlanId === pl.id))
-                        ? Number(ov.customPrice)
-                        : Number(pl.price);
-                    return `
-                        <div onclick="selectSubscriptionCheckoutPlan('${pl.id}', false)" class="p-3.5 rounded-2xl border-2 text-left cursor-pointer transition flex flex-col justify-between gap-2 ${isSelected ? 'border-primary-600 bg-primary-50/90 dark:bg-primary-950/60 shadow-md ring-2 ring-primary-500/20' : 'border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 hover:border-primary-400'}">
-                            <div>
-                                <div class="flex items-center justify-between gap-1">
-                                    <span class="font-black text-neutral-900 dark:text-white">${pl.name}</span>
-                                    <span class="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-[9px] font-black">${pl.badge || `${pl.days}d`}</span>
-                                </div>
-                                <div class="text-xl font-black text-primary-600 mt-1.5">₹${effPrice} <span class="text-[10px] font-bold text-neutral-400">/ ${pl.days}d</span></div>
-                                <div class="text-[10px] text-neutral-500 mt-1 leading-snug">${pl.desc || 'All Pro features unlocked'}</div>
-                            </div>
-                            <button type="button" onclick="event.stopPropagation(); selectSubscriptionCheckoutPlan('${pl.id}', true)" class="w-full py-1.5 px-2.5 rounded-xl ${isSelected ? 'bg-primary-600 text-white' : 'bg-neutral-200/80 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200'} font-black text-[10px] transition">
-                                ${isSelected ? '✓ Selected • Checkout →' : 'Select Plan →'}
-                            </button>
-                        </div>
-                    `;
-                }).join('');
-            }
-
-            if (document.getElementById('sub-step1-proceed-text')) {
-                document.getElementById('sub-step1-proceed-text').textContent = `Continue with ${selectedCheckoutPlanName} (₹${selectedCheckoutAmount}) →`;
-            }
-
-            populateSubscriberAutoDetails();
-            refreshSubscriptionCheckoutQr();
-            setSubscriptionCheckoutPaymentMethod(currentSubscriptionCheckoutMethod || 'upi');
-            const utrInp = document.getElementById('sub-checkout-utr-input');
-            if (utrInp && !utrInp.value) handleSubscriptionUtrInput('');
-            document.getElementById('sub-post-utr-whatsapp-card')?.classList.add('hidden');
-            document.getElementById('sub-verify-feedback-box')?.classList.add('hidden');
-            document.getElementById('sub-razorpay-feedback-box')?.classList.add('hidden');
-            document.getElementById('sub-wallet-checkout-feedback')?.classList.add('hidden');
-            goToSubscriptionStep(startStep);
-            document.getElementById('subscription-upgrade-modal')?.classList.replace('hidden', 'flex');
-        }
-
-        function handleSubscriptionUtrInput(rawVal) {
-            const digits = String(rawVal || '').replace(/\D/g, '').slice(0, 12);
-            const inp = document.getElementById('sub-checkout-utr-input');
-            if (inp && inp.value !== digits) inp.value = digits;
-            const counterEl = document.getElementById('sub-utr-digit-counter');
-            if (counterEl) {
-                const isReady = digits.length === 12;
-                counterEl.textContent = isReady ? '✓ 12 / 12 Digits' : `${digits.length} / 12 Digits`;
-                counterEl.className = isReady
-                    ? 'px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-mono text-[10px] font-black'
-                    : 'px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-white/10 font-mono text-[10px] font-black text-neutral-600 dark:text-slate-300';
-            }
-        }
-
-        function downloadSubscriptionQrCode() {
-            const qrImg = document.getElementById('sub-checkout-qr-img');
-            if (!qrImg || !qrImg.src) return;
-            try {
-                const canvas = document.createElement('canvas');
-                canvas.width = 280;
-                canvas.height = 310;
-                const ctx = canvas.getContext('2d');
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(qrImg, 20, 16, 240, 240);
-                ctx.fillStyle = '#0f172a';
-                ctx.font = 'bold 14px Inter, sans-serif';
-                ctx.textAlign = 'center';
-                const netTxt = document.getElementById('sub-bill-net-amt')?.textContent || `₹${selectedCheckoutAmount}`;
-                ctx.fillText(`NeoKhata VIP Pro • ${netTxt}`, 140, 282);
-                const link = document.createElement('a');
-                link.download = `NeoKhata_Pro_Payment_QR.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                showToast('Payment QR Code downloaded!');
-            } catch (e) {
-                window.open(qrImg.src, '_blank');
-                showToast('Opened Payment QR Code');
-            }
-        }
-
-        function launchSubscriptionUpiApp(appHint = 'any') {
-            const sc = ensureSubscriptionConfig();
-            const receiverUpi = sc.upiId || '6393954985@upi';
-            const baseAmt = Math.max(1, Math.round(Number(selectedCheckoutAmount) || 199));
-            const finalAmt = Math.max(1, baseAmt - Math.round((baseAmt * appliedCheckoutDiscountPct) / 100));
-            const params = `pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent('NeoKhata Pro')}&am=${finalAmt.toFixed(2)}&cu=INR&tn=${encodeURIComponent(selectedCheckoutPlanName)}`;
-
-            const schemeMap = {
-                gpay: `tez://upi/pay?${params}`,
-                phonepe: `phonepe://pay?${params}`,
-                paytm: `paytmmp://pay?${params}`,
-                any: `upi://pay?${params}`
-            };
-            const targetUri = schemeMap[appHint] || schemeMap.any;
-            window.location.href = targetUri;
-            if (appHint !== 'any') {
-                setTimeout(() => {
-                    window.location.href = `upi://pay?${params}`;
-                }, 900);
-            }
-        }
-
-        async function submitSubscriptionUtrPayment(e) {
-            e.preventDefault();
-            const utr = (document.getElementById('sub-checkout-utr-input')?.value || '').replace(/\D/g, '').slice(0, 12);
-            const fb = document.getElementById('sub-verify-feedback-box');
-            const waCard = document.getElementById('sub-post-utr-whatsapp-card');
-            const sc = ensureSubscriptionConfig();
-            const userKey = getCurrentUserSubKey();
-
-            // Keep WhatsApp card strictly hidden until validation passes
-            waCard?.classList.add('hidden');
-
-            // Re-validate applied promo coupon before submitting UTR
-            let validCouponCode = '';
-            let validDiscountPct = 0;
-            if (appliedCheckoutCouponCode) {
-                const cObj = (sc.coupons || []).find(c => (c.code || '').toUpperCase() === appliedCheckoutCouponCode);
-                const cCheck = validatePromoCouponForUser(cObj, userKey);
-                if (!cCheck.valid) {
-                    appliedCheckoutCouponCode = '';
-                    appliedCheckoutDiscountPct = 0;
-                    refreshSubscriptionCheckoutQr();
-                    showToast(cCheck.message, 'error');
-                    return;
-                }
-                validCouponCode = cObj.code;
-                validDiscountPct = Math.min(100, Math.max(1, Number(cObj.discountPct) || 0));
-            }
-
-            const baseAmt = Math.max(1, Math.round(Number(selectedCheckoutAmount) || 199));
-            const discountAmt = Math.round((baseAmt * validDiscountPct) / 100);
-            const finalAmt = Math.max(1, baseAmt - discountAmt);
-
-            const isValid12Digit = /^\d{12}$/.test(utr) && !/^(\d)\1{11}$/.test(utr) && utr !== '123456789012';
-            const isDuplicate = (sc.paymentRequests || []).some(r => r.utr === utr && (r.status === 'approved' || r.status === 'pending'));
-
-            if (!isValid12Digit || isDuplicate) {
-                if (fb) {
-                    fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-rose-500/15 text-rose-700 dark:text-rose-200 border border-rose-500/35';
-                    fb.textContent = isDuplicate
-                        ? '❌ यह 12-Digit UTR नंबर पहले ही सबमिट किया जा चुका है। कृपया नया वैध UTR दर्ज करें।'
-                        : '❌ कृपया पूरा 12 अंकों का वैध UTR नंबर (12-Digit UTR) दर्ज करें।';
-                }
-                showToast(isDuplicate ? 'This 12-digit UTR is already submitted!' : 'Please enter a valid 12-digit UTR number!', 'error');
-                document.getElementById('sub-checkout-utr-input')?.focus();
-                return;
-            }
-
-            const sess = getAuthSession() || {};
-
-            // Save as PENDING — strictly requires Admin Panel Accept/Approval before unlocking Pro features & recording coupon usage
-            sc.paymentRequests.unshift({
-                id: `subreq_${Date.now()}`,
-                userKey,
-                userName: getPrimaryUserName(),
-                userPhone: sess.phone || appState.userProfile?.phone || '',
-                userEmail: sess.email || appState.userProfile?.email || '',
-                planId: selectedCheckoutPlanId,
-                planName: selectedCheckoutPlanName,
-                planDays: Number(selectedCheckoutDays) || 30,
-                baseAmount: baseAmt,
-                discountAmount: discountAmt,
-                couponCode: validCouponCode,
-                couponDiscountPct: validDiscountPct,
-                couponCounted: false,
-                amount: finalAmt,
-                utr,
-                status: 'pending',
-                createdAt: new Date().toISOString()
-            });
-
-            localStorage.setItem('khataflow_admin_config', JSON.stringify(adminConfig));
-            saveAllAdminChangesLive();
-            updateSubscriptionStatusBadges();
-            if (typeof renderAdminSubscriptionStudio === 'function') renderAdminSubscriptionStudio();
-
-            window._lastSubmittedSubscriptionUtr = {
-                planName: selectedCheckoutPlanName,
-                amount: finalAmt,
-                utr
-            };
-
-            const waUrl = buildNeoKhataSupportWhatsAppUrl('utr', {
-                planName: selectedCheckoutPlanName,
-                amount: finalAmt,
-                utr
-            });
-
-            if (fb) {
-                fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/35';
-                fb.innerHTML = `⏳ 12-Digit UTR (<strong>${utr}</strong>) submitted as <strong>Pending</strong> for <strong>${selectedCheckoutPlanName}</strong> (<strong>₹${finalAmt}</strong>${validCouponCode ? ` • Coupon ${validCouponCode}` : ''}). Your plan will activate once Admin verifies and approves it.`;
-            }
-
-            // Reveal the post-submit WhatsApp card & update its href
-            const waLinkEl = document.getElementById('sub-post-utr-whatsapp-link');
-            const waSummaryEl = document.getElementById('sub-post-utr-whatsapp-summary');
-            const uniqueId = ensureResolvedUniqueIdForSupport();
-            if (waLinkEl) waLinkEl.href = waUrl;
-            if (waSummaryEl) {
-                waSummaryEl.textContent = `ID: ${uniqueId} • ${selectedCheckoutPlanName} (₹${finalAmt}) • UTR: ${utr}`;
-            }
-            waCard?.classList.remove('hidden');
-
-            document.getElementById('sub-checkout-utr-input').value = '';
-            handleSubscriptionUtrInput('');
-            showToast('12-Digit UTR submitted (Pending Approval)! Opening WhatsApp...');
-
-            // Automatically redirect to WhatsApp with the structured pre-written message
-            setTimeout(() => {
-                window.open(waUrl, '_blank', 'noopener,noreferrer');
-            }, 350);
-        }
-
-        function closeSubscriptionUpgradeModal() {
-            document.getElementById('subscription-upgrade-modal')?.classList.replace('flex', 'hidden');
-        }
-
-        function selectSubscriptionCheckoutPlan(planId, advanceToStep2 = false) {
-            const sc = ensureSubscriptionConfig();
-            const userKey = getCurrentUserSubKey();
-            const ov = sc.userOverrides[userKey] || {};
-            const pl = (sc.plans || []).find(p => p.id === planId);
-            if (!pl) return;
-            selectedCheckoutPlanId = pl.id;
-            selectedCheckoutPlanName = pl.name;
-            selectedCheckoutDays = Number(pl.days) || 30;
-            selectedCheckoutAmount = (ov.customPrice !== undefined && ov.customPrice !== null && ov.customPrice !== '' && (!ov.assignedPlanId || ov.assignedPlanId === pl.id))
-                ? Number(ov.customPrice)
-                : Number(pl.price);
-            openSubscriptionUpgradeModal('', advanceToStep2 ? 2 : 1);
-        }
-
-        function getPromoCouponLifecycleStatus(c) {
-            if (!c) return { valid: false, label: 'Invalid', badgeClass: 'bg-rose-500/15 text-rose-600' };
-            if (c.active === false) return { valid: false, label: 'Inactive', badgeClass: 'bg-neutral-300 text-neutral-700' };
-            const today = new Date().toISOString().slice(0, 10);
-            if (c.validFrom && today < c.validFrom) return { valid: false, label: 'Upcoming', badgeClass: 'bg-amber-500/15 text-amber-700' };
-            if (c.validUntil && today > c.validUntil) return { valid: false, label: 'Expired', badgeClass: 'bg-rose-500/15 text-rose-600' };
-            if (!c.isUnlimited && Number(c.maxUsageLimit) > 0 && Number(c.usedCount) >= Number(c.maxUsageLimit)) {
-                return { valid: false, label: 'Limit Reached', badgeClass: 'bg-rose-500/15 text-rose-600' };
-            }
-            return { valid: true, label: 'Active', badgeClass: 'bg-emerald-500/15 text-emerald-700' };
-        }
-
-        function validatePromoCouponForUser(c, userKey) {
-            if (!c) return { valid: false, message: 'Invalid promo coupon code.' };
-            const status = getPromoCouponLifecycleStatus(c);
-            if (!status.valid) return { valid: false, message: `Coupon "${c.code}" is ${status.label.toLowerCase()}.` };
-            const alreadyUsed = Array.isArray(c.usedByUsers) && c.usedByUsers.some(u => u.userKey === userKey);
-            if (alreadyUsed) return { valid: false, message: `You have already redeemed coupon "${c.code}".` };
-            return { valid: true, message: `Coupon "${c.code}" (${c.discountPct}% OFF) applied!` };
-        }
-
-        function applySubscriptionCheckoutCoupon() {
-            const sc = ensureSubscriptionConfig();
-            const code = (document.getElementById('sub-checkout-coupon-input')?.value || '').trim().toUpperCase();
-            const stEl = document.getElementById('sub-coupon-status-text');
-            if (!code) {
-                appliedCheckoutCouponCode = '';
-                appliedCheckoutDiscountPct = 0;
-                refreshSubscriptionCheckoutQr();
-                return;
-            }
-            const cObj = (sc.coupons || []).find(c => (c.code || '').toUpperCase() === code);
-            const check = validatePromoCouponForUser(cObj, getCurrentUserSubKey());
-            if (!check.valid) {
-                appliedCheckoutCouponCode = '';
-                appliedCheckoutDiscountPct = 0;
-                if (stEl) {
-                    stEl.className = 'text-[10px] font-bold text-rose-600';
-                    stEl.textContent = check.message;
-                }
-                refreshSubscriptionCheckoutQr();
-                showToast(check.message, 'error');
-                return;
-            }
-            appliedCheckoutCouponCode = cObj.code;
-            appliedCheckoutDiscountPct = Math.min(100, Math.max(1, Number(cObj.discountPct) || 0));
-            if (stEl) {
-                stEl.className = 'text-[10px] font-bold text-emerald-600';
-                stEl.textContent = check.message;
-            }
-            refreshSubscriptionCheckoutQr();
-            showToast(check.message);
-        }
-
-        function refreshSubscriptionCheckoutQr() {
-            const sc = ensureSubscriptionConfig();
-            const receiverUpi = sc.upiId || '6393954985@upi';
-            const baseAmt = Math.max(1, Math.round(Number(selectedCheckoutAmount) || 199));
-            const discountAmt = Math.round((baseAmt * appliedCheckoutDiscountPct) / 100);
-            const finalAmt = Math.max(1, baseAmt - discountAmt);
-
-            if (document.getElementById('sub-checkout-plan-summary')) {
-                document.getElementById('sub-checkout-plan-summary').textContent = `${selectedCheckoutPlanName} (${selectedCheckoutDays} Days) • ₹${finalAmt}`;
-            }
-            if (document.getElementById('sub-bill-base-amt')) document.getElementById('sub-bill-base-amt').textContent = `₹${baseAmt}`;
-            const discRow = document.getElementById('sub-bill-discount-row');
-            if (discRow) {
-                discRow.classList.toggle('hidden', discountAmt <= 0);
-                if (document.getElementById('sub-bill-discount-amt')) {
-                    document.getElementById('sub-bill-discount-amt').textContent = `-₹${discountAmt} (${appliedCheckoutCouponCode})`;
-                }
-            }
-            const appliedBadge = document.getElementById('sub-coupon-applied-badge');
-            if (appliedBadge) appliedBadge.classList.toggle('hidden', discountAmt <= 0);
-
-            if (document.getElementById('sub-bill-net-amt')) document.getElementById('sub-bill-net-amt').textContent = `₹${finalAmt}`;
-            if (document.getElementById('sub-checkout-pay-btn-amt')) document.getElementById('sub-checkout-pay-btn-amt').textContent = `₹${finalAmt}`;
-            if (document.getElementById('sub-checkout-upi-display')) document.getElementById('sub-checkout-upi-display').textContent = sc.merchantLabel || 'Verified Merchant';
-
-            const availBal = getAvailableReferralBalance(getCurrentUserSubKey());
-            if (document.getElementById('sub-wallet-bal-pill')) document.getElementById('sub-wallet-bal-pill').textContent = `Wallet Bal: ₹${availBal}`;
-            if (document.getElementById('sub-wallet-checkout-avail-text')) document.getElementById('sub-wallet-checkout-avail-text').textContent = `₹${availBal}`;
-            if (document.getElementById('sub-wallet-pay-btn-label')) document.getElementById('sub-wallet-pay-btn-label').textContent = `Pay ₹${finalAmt} from Referral Wallet & Activate`;
-            if (document.getElementById('sub-razorpay-pay-btn-label')) document.getElementById('sub-razorpay-pay-btn-label').textContent = `Pay ₹${finalAmt} via Razorpay & Activate Now`;
-
-            const qrImg = document.getElementById('sub-checkout-qr-img');
-            if (qrImg) {
-                const upiUri = `upi://pay?pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent('NeoKhata Pro')}&am=${finalAmt.toFixed(2)}&cu=INR&tn=${encodeURIComponent(selectedCheckoutPlanName)}`;
-                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUri)}`;
-            }
-        }
-
-        // ================= DUAL PAYMENT GATEWAY (DIRECT UPI + RAZORPAY + REFERRAL WALLET) =================
-        let currentSubscriptionCheckoutMethod = 'upi';
-        const processedRazorpayPaymentIds = new Set();
-
-        function setSubscriptionCheckoutPaymentMethod(method) {
-            currentSubscriptionCheckoutMethod = (method === 'razorpay' || method === 'wallet') ? method : 'upi';
-            const upiBox = document.getElementById('sub-modal-upi-checkout-box');
-            const rzpBox = document.getElementById('sub-modal-razorpay-checkout-box');
-            const walBox = document.getElementById('sub-modal-wallet-checkout-box');
-
-            upiBox?.classList.toggle('hidden', currentSubscriptionCheckoutMethod !== 'upi');
-            rzpBox?.classList.toggle('hidden', currentSubscriptionCheckoutMethod !== 'razorpay');
-            walBox?.classList.toggle('hidden', currentSubscriptionCheckoutMethod !== 'wallet');
-
-            const activeCls = 'py-2.5 px-2 rounded-xl bg-primary-600 text-white font-black text-[11px] flex items-center justify-center gap-1.5 shadow-sm transition';
-            const idleCls = 'py-2.5 px-2 rounded-xl bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 font-black text-[11px] flex items-center justify-center gap-1.5 transition';
-
-            const bUpi = document.getElementById('sub-paymode-upi-btn');
-            const bRzp = document.getElementById('sub-paymode-razorpay-btn');
-            const bWal = document.getElementById('sub-paymode-wallet-btn');
-            if (bUpi) bUpi.className = currentSubscriptionCheckoutMethod === 'upi' ? activeCls : idleCls;
-            if (bRzp) bRzp.className = currentSubscriptionCheckoutMethod === 'razorpay' ? activeCls : idleCls;
-            if (bWal) bWal.className = currentSubscriptionCheckoutMethod === 'wallet' ? activeCls : idleCls;
-            refreshSubscriptionCheckoutQr();
-        }
-
-        async function initiateRazorpaySubscriptionCheckout() {
-            const sc = ensureSubscriptionConfig();
-            const fb = document.getElementById('sub-razorpay-feedback-box');
-            const keyId = String(sc.razorpayKeyId || '').trim();
-            if (!keyId || !keyId.startsWith('rzp_')) {
-                const msg = 'Razorpay is not configured by Admin yet. Please use Direct UPI or contact Admin.';
-                if (fb) {
-                    fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-amber-500/15 text-amber-800 dark:text-amber-200 border border-amber-500/35';
-                    fb.textContent = msg;
-                }
-                showToast(msg, 'error');
-                return;
-            }
-
-            const baseAmt = Math.max(1, Math.round(Number(selectedCheckoutAmount) || 199));
-            const discountAmt = Math.round((baseAmt * appliedCheckoutDiscountPct) / 100);
-            const payableAmount = Math.max(1, baseAmt - discountAmt);
-            const amountInPaise = Math.round(Number(payableAmount) * 100);
-
-            try {
-                await loadScriptOnce('https://checkout.razorpay.com/v1/checkout.js');
-                if (typeof window.Razorpay !== 'function') {
-                    throw new Error('Razorpay SDK failed to initialize');
-                }
-            } catch (sdkErr) {
-                const errText = 'Unable to load Razorpay Checkout. Please check your internet or use Direct UPI.';
-                if (fb) {
-                    fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-rose-500/15 text-rose-700 dark:text-rose-200 border border-rose-500/35';
-                    fb.textContent = errText;
-                }
-                showToast(errText, 'error');
-                return;
-            }
-
-            const sess = getAuthSession() || {};
-            const userKey = getCurrentUserSubKey();
-            const userName = getPrimaryUserName();
-            const userPhone = extractCleanPhone(sess.phone || appState.userProfile?.phone || '');
-            const userEmail = sess.email || appState.userProfile?.email || '';
-            const neoId = ensureResolvedUniqueIdForSupport();
-
-            const options = {
-                key: keyId,
-                amount: amountInPaise,
-                currency: 'INR',
-                name: 'NeoKhata VIP Pro',
-                description: `${selectedCheckoutPlanName} (${selectedCheckoutDays} Days) • ${neoId}`,
-                prefill: {
-                    name: userName,
-                    email: userEmail,
-                    contact: userPhone ? `+91${userPhone}` : ''
-                },
-                notes: {
-                    neo_user_id: neoId,
-                    user_key: userKey,
-                    plan_id: selectedCheckoutPlanId,
-                    plan_name: selectedCheckoutPlanName
-                },
-                theme: { color: '#2453d6' },
-                handler: function (response) {
-                    const paymentId = String(response?.razorpay_payment_id || '').trim();
-                    if (!paymentId) {
-                        showToast('Razorpay payment verification failed — missing Payment ID.', 'error');
-                        return;
-                    }
-                    if (processedRazorpayPaymentIds.has(paymentId)) return;
-                    processedRazorpayPaymentIds.add(paymentId);
-
-                    const scLatest = ensureSubscriptionConfig();
-                    const validDays = Number(selectedCheckoutDays) || 30;
-                    scLatest.userOverrides[userKey] = {
-                        ...(scLatest.userOverrides[userKey] || {}),
-                        planName: selectedCheckoutPlanName,
-                        assignedPlanId: selectedCheckoutPlanId,
-                        expiresAt: new Date(Date.now() + validDays * 86400000).toISOString()
-                    };
-
-                    if (appliedCheckoutCouponCode) {
-                        const couponObj = (scLatest.coupons || []).find(c => (c.code || '').toUpperCase() === appliedCheckoutCouponCode);
-                        if (couponObj) {
-                            if (!Array.isArray(couponObj.usedByUsers)) couponObj.usedByUsers = [];
-                            couponObj.usedCount = (Number(couponObj.usedCount) || 0) + 1;
-                            couponObj.usedByUsers.unshift({
-                                requestId: paymentId,
-                                userKey,
-                                userName,
-                                userPhone,
-                                userEmail,
-                                planName: selectedCheckoutPlanName,
-                                discountSaved: discountAmt,
-                                utr: paymentId,
-                                usedAt: new Date().toISOString()
-                            });
-                        }
-                    }
-
-                    scLatest.paymentRequests.unshift({
-                        id: `rzp_${Date.now()}`,
-                        paymentSource: 'Razorpay',
-                        userKey,
-                        neoUserId: neoId,
-                        userName,
-                        userPhone,
-                        userEmail,
-                        planId: selectedCheckoutPlanId,
-                        planName: selectedCheckoutPlanName,
-                        planDays: validDays,
-                        baseAmount: baseAmt,
-                        discountAmount: discountAmt,
-                        couponCode: appliedCheckoutCouponCode || '',
-                        couponDiscountPct: appliedCheckoutDiscountPct || 0,
-                        couponCounted: !!appliedCheckoutCouponCode,
-                        amount: payableAmount,
-                        utr: paymentId,
-                        status: 'approved',
-                        createdAt: new Date().toISOString(),
-                        reviewedAt: new Date().toISOString()
-                    });
-
-                    if (typeof markAffiliateReferralDoneOnPlanPurchase === 'function') {
-                        markAffiliateReferralDoneOnPlanPurchase(userKey, selectedCheckoutPlanName, payableAmount);
-                    }
-
-                    safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
-                    saveAllAdminChangesLive();
-                    updateSubscriptionStatusBadges();
-                    renderUserProfileHub();
-                    if (typeof renderAdminSubscriptionStudio === 'function') renderAdminSubscriptionStudio();
-                    if (typeof renderAdminAffiliateStudio === 'function') renderAdminAffiliateStudio();
-
-                    if (fb) {
-                        fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/35';
-                        fb.textContent = `✅ Payment Verified (${paymentId})! Your ${selectedCheckoutPlanName} is now ACTIVE.`;
-                    }
-                    showToast(`Razorpay Payment Success! ${selectedCheckoutPlanName} Activated!`);
-                },
-                modal: {
-                    ondismiss: function () {
-                        if (fb) {
-                            fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-neutral-200/80 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300';
-                            fb.textContent = 'Razorpay checkout was closed before payment completion. No charges applied.';
-                        }
-                    }
-                }
-            };
-
-            try {
-                const rzpInstance = new window.Razorpay(options);
-                rzpInstance.on('payment.failed', function (resp) {
-                    const failReason = resp?.error?.description || 'Payment failed or declined.';
-                    if (fb) {
-                        fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-rose-500/15 text-rose-700 dark:text-rose-200 border border-rose-500/35';
-                        fb.textContent = `❌ Razorpay Payment Failed: ${failReason}`;
-                    }
-                    showToast(`Payment Failed: ${failReason}`, 'error');
-                });
-                rzpInstance.open();
-            } catch (openErr) {
-                showToast('Unable to open Razorpay window. Please try again.', 'error');
-            }
-        }
-
-        function paySubscriptionViaWallet() {
-            const sc = ensureSubscriptionConfig();
-            const userKey = getCurrentUserSubKey();
-            const availBal = getAvailableReferralBalance(userKey);
-            const baseAmt = Math.max(1, Math.round(Number(selectedCheckoutAmount) || 199));
-            const discountAmt = Math.round((baseAmt * appliedCheckoutDiscountPct) / 100);
-            const payableAmount = Math.max(1, baseAmt - discountAmt);
-            const fb = document.getElementById('sub-wallet-checkout-feedback');
-
-            if (availBal < payableAmount) {
-                const msg = `Insufficient Referral Wallet balance (Available: ₹${availBal}, Required: ₹${payableAmount})!`;
-                if (fb) {
-                    fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-rose-500/15 text-rose-700 dark:text-rose-200 border border-rose-500/35';
-                    fb.textContent = msg;
-                }
-                showToast(msg, 'error');
-                return;
-            }
-
-            const wStore = ensureWalletLedgerStore();
-            const validDays = Number(selectedCheckoutDays) || 30;
-            const sess = getAuthSession() || {};
-            const neoId = ensureResolvedUniqueIdForSupport();
-            const txId = `wplan_${Date.now()}`;
-
-            wStore.ledgerEntries.unshift({
-                id: txId,
-                userKey,
-                type: 'plan_purchase',
-                amount: payableAmount,
-                note: `Plan Purchase: ${selectedCheckoutPlanName} (${validDays}d)`,
-                createdAt: new Date().toISOString()
-            });
-
-            sc.userOverrides[userKey] = {
-                ...(sc.userOverrides[userKey] || {}),
-                planName: selectedCheckoutPlanName,
-                assignedPlanId: selectedCheckoutPlanId,
-                expiresAt: new Date(Date.now() + validDays * 86400000).toISOString()
-            };
-
-            sc.paymentRequests.unshift({
-                id: txId,
-                paymentSource: 'Wallet',
-                userKey,
-                neoUserId: neoId,
-                userName: getPrimaryUserName(),
-                userPhone: sess.phone || appState.userProfile?.phone || '',
-                userEmail: sess.email || appState.userProfile?.email || '',
-                planId: selectedCheckoutPlanId,
-                planName: selectedCheckoutPlanName,
-                planDays: validDays,
-                baseAmount: baseAmt,
-                discountAmount: discountAmt,
-                couponCode: appliedCheckoutCouponCode || '',
-                couponDiscountPct: appliedCheckoutDiscountPct || 0,
-                couponCounted: !!appliedCheckoutCouponCode,
-                amount: payableAmount,
-                utr: `WALLET-${txId.slice(-6).toUpperCase()}`,
-                status: 'approved',
-                createdAt: new Date().toISOString(),
-                reviewedAt: new Date().toISOString()
-            });
-
-            if (typeof markAffiliateReferralDoneOnPlanPurchase === 'function') {
-                markAffiliateReferralDoneOnPlanPurchase(userKey, selectedCheckoutPlanName, payableAmount);
-            }
-
-            safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
-            saveAllAdminChangesLive();
-            updateMenuWalletBalanceBadge();
-            updateSubscriptionStatusBadges();
-            refreshSubscriptionCheckoutQr();
-            renderUserProfileHub();
-
-            const nextBal = getAvailableReferralBalance(userKey);
-            if (fb) {
-                fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border border-emerald-500/35';
-                fb.textContent = `✅ ₹${payableAmount} deducted from Referral Wallet! ${selectedCheckoutPlanName} Activated (Remaining Balance: ₹${nextBal}).`;
-            }
-            showToast(`${selectedCheckoutPlanName} activated via Referral Wallet!`);
-        }
-
-        // ================= UNIFIED SINGLE-SOURCE REFERRAL WALLET & PAYOUTS ENGINE =================
-        function roundWalletAmount(val) {
-            const num = Number(val) || 0;
-            return Math.round((num + Number.EPSILON) * 100) / 100;
-        }
-
-        function ensureWalletLedgerStore() {
-            if (!adminConfig.walletSystem || typeof adminConfig.walletSystem !== 'object') {
-                adminConfig.walletSystem = {
-                    minWithdrawLimit: 100,
-                    withdrawRequests: [],
-                    ledgerEntries: [],
-                    adminAdjustments: {}
-                };
-            }
-            const ws = adminConfig.walletSystem;
-            if (!ws.minWithdrawLimit || Number(ws.minWithdrawLimit) < 1) ws.minWithdrawLimit = 100;
-            ws.withdrawRequests = normalizeCollectionToArray(ws.withdrawRequests);
-            ws.ledgerEntries = normalizeCollectionToArray(ws.ledgerEntries);
-            if (!ws.adminAdjustments || typeof ws.adminAdjustments !== 'object') ws.adminAdjustments = {};
-            return ws;
-        }
-
-        function getUserReferralWalletBreakdown(userKey = getCurrentUserSubKey()) {
-            const normKey = String(userKey || '').trim().toLowerCase();
-            if (!normKey || normKey === 'master_admin') {
-                return { earned10: 0, adminCredits: 0, adminDebits: 0, activeWithdrawals: 0, refundedWithdrawals: 0, planSpent: 0, availableReferralBalance: 0 };
-            }
-
-            const ap = ensureAffiliateProgramConfig();
-            const wStore = ensureWalletLedgerStore();
-            const myCode = getOrCreateUserSixDigitReferralCode(normKey);
-            const pct = Math.min(100, Math.max(1, Number(ap.commissionPct) || 10));
-
-            // 1. Approved 10% Referral Commissions (only status === 'done' && counted)
-            const myDoneRefs = (ap.referrals || []).filter(r =>
-                (String(r.referrerUserKey || '').toLowerCase() === normKey || String(r.referralCode) === myCode) &&
-                r.status === 'done' && r.counted
-            );
-            const earned10 = roundWalletAmount(myDoneRefs.reduce((sum, r) => {
-                const comm = r.commissionAmount !== undefined && r.commissionAmount !== null
-                    ? Number(r.commissionAmount)
-                    : roundWalletAmount(((Number(r.purchasedAmount) || 0) * pct) / 100);
-                return sum + (Number(comm) || 0);
-            }, 0));
-
-            // 2. Direct Admin Credit / Debit Adjustments
-            const adjList = normalizeCollectionToArray(wStore.adminAdjustments[normKey]);
-            let adminCredits = 0;
-            let adminDebits = 0;
-            adjList.forEach(a => {
-                const amt = Number(a.amount) || 0;
-                if (a.type === 'debit') adminDebits += amt;
-                else adminCredits += amt;
-            });
-
-            // 3. Withdrawals (Pending & Approved/Paid remain deducted; Rejected are refunded once)
-            const myWithdraws = (wStore.withdrawRequests || []).filter(w => String(w.userKey || '').toLowerCase() === normKey);
-            let activeWithdrawals = 0;
-            let refundedWithdrawals = 0;
-            myWithdraws.forEach(w => {
-                const amt = Number(w.amount) || 0;
-                if (w.status === 'rejected') {
-                    refundedWithdrawals += amt;
-                } else {
-                    activeWithdrawals += amt;
-                }
-            });
-
-            // 4. Plan Purchases Paid via Referral Wallet
-            const myPlanPurchases = (wStore.ledgerEntries || []).filter(e =>
-                String(e.userKey || '').toLowerCase() === normKey && e.type === 'plan_purchase'
-            );
-            const planSpent = roundWalletAmount(myPlanPurchases.reduce((s, e) => s + (Number(e.amount) || 0), 0));
-
-            const rawNet = (earned10 + adminCredits) - (activeWithdrawals + planSpent + adminDebits);
-            const availableReferralBalance = Math.max(0, roundWalletAmount(rawNet));
-
+        function getPlanPricingDisplayInfo(pl, ov = {}) {
+            const hasCustomOv = ov && ov.customPrice !== undefined && ov.customPrice !== null && ov.customPrice !== '' && (!ov.assignedPlanId || ov.assignedPlanId === pl.id);
+            const offerPrice = hasCustomOv ? Math.max(0, Number(ov.customPrice) || 0) : Math.max(0, Number(pl?.price) || 0);
+            const rawOrig = hasCustomOv ? Math.max(Number(pl?.originalPrice) || 0, Number(pl?.price) || 0) : (Number(pl?.originalPrice) || 0);
+            const hasDiscount = rawOrig > offerPrice && rawOrig > 0;
+            const discountPct = hasDiscount ? Math.round(((rawOrig - offerPrice) / rawOrig) * 100) : 0;
             return {
-                earned10,
-                adminCredits: roundWalletAmount(adminCredits),
-                adminDebits: roundWalletAmount(adminDebits),
-                activeWithdrawals: roundWalletAmount(activeWithdrawals),
-                refundedWithdrawals: roundWalletAmount(refundedWithdrawals),
-                planSpent,
-                availableReferralBalance
+                originalPrice: hasDiscount ? rawOrig : 0,
+                offerPrice,
+                hasDiscount,
+                discountPct
             };
         }
 
@@ -18004,64 +17114,68 @@ ${JSON.stringify(liveSnapshot)}`;
                             ` : ''}
                         </div>
                     `;
-                }).join('') : '<div class="text-center py-3 text-[11px] text-neutral-400">No promo coupons created yet.</div>';
+                }).join('') : '<div class="text-center py-3 text-neutral-400">No promo coupons created yet.</div>';
+            }
+
+            const plansEl = document.getElementById('admin-sub-plans-list');
+            if (plansEl) {
+                plansEl.innerHTML = (sc.plans || []).map((pl, idx) => {
+                    const pInfo = getPlanPricingDisplayInfo(pl);
+                    return `
+                    <div class="p-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border space-y-1.5">
+                        <div class="grid grid-cols-12 gap-1.5 items-center">
+                            <input type="text" value="${String(pl.name || '').replace(/"/g, '&quot;')}" onchange="updateAdminSubscriptionPlanField(${idx}, 'name', this.value)" title="Plan Name" class="col-span-3 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black">
+                            <input type="number" min="0" value="${pl.originalPrice || ''}" placeholder="MRP ₹" onchange="updateAdminSubscriptionPlanField(${idx}, 'originalPrice', this.value)" title="Original Price (Strikethrough MRP ₹)" class="col-span-2 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-bold text-neutral-500">
+                            <input type="number" min="0" value="${pl.price}" placeholder="Offer ₹" onchange="updateAdminSubscriptionPlanField(${idx}, 'price', this.value)" title="Offer Price (Selling Price ₹)" class="col-span-2 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black text-emerald-600">
+                            <input type="number" min="1" value="${pl.days}" onchange="updateAdminSubscriptionPlanField(${idx}, 'days', this.value)" title="Validity Days" class="col-span-2 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-bold">
+                            <input type="text" value="${String(pl.badge || '').replace(/"/g, '&quot;')}" onchange="updateAdminSubscriptionPlanField(${idx}, 'badge', this.value)" title="Custom Badge" class="col-span-2 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-bold">
+                            <button type="button" onclick="deleteAdminSubscriptionPlan(${idx})" class="col-span-1 text-rose-500 text-center" title="Delete Plan"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <input type="text" value="${String(pl.desc || '').replace(/"/g, '&quot;')}" onchange="updateAdminSubscriptionPlanField(${idx}, 'desc', this.value)" placeholder="Plan description..." class="flex-1 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border text-[10px]">
+                            ${pInfo.hasDiscount ? `<span class="px-2 py-1 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-black text-[9.5px] whitespace-nowrap">Auto: Save ${pInfo.discountPct}% (₹${pInfo.originalPrice} → ₹${pInfo.offerPrice})</span>` : '<span class="px-2 py-1 rounded-lg bg-neutral-200/80 dark:bg-neutral-700 text-neutral-500 font-bold text-[9.5px] whitespace-nowrap">No MRP Discount</span>'}
+                        </div>
+                    </div>
+                `;
+                }).join('');
             }
 
             const featMatrix = document.getElementById('admin-sub-features-matrix');
             if (featMatrix) {
                 const fq = (document.getElementById('adm-sub-feat-search')?.value || '').toLowerCase().trim();
-                const allCatalog = [...SUBSCRIPTION_FEATURE_CATALOG, ...(sc.customFeatures || [])].filter(f => !fq || `${f.key} ${f.label}`.toLowerCase().includes(fq));
-                featMatrix.innerHTML = allCatalog.map(f => {
-                    const rule = sc.featureRules[f.key] || {};
-                    const isPaid = !!rule.isPaid;
-                    const isCustom = (sc.customFeatures || []).some(cf => cf.key === f.key);
+                const allFeats = [...SUBSCRIPTION_FEATURE_CATALOG, ...(sc.customFeatures || [])];
+                featMatrix.innerHTML = allFeats.filter(f => !fq || `${f.label} ${f.key}`.toLowerCase().includes(fq)).map(f => {
+                    const rule = sc.featureRules[f.key] || { label: f.label, isPaid: !!f.defaultPaid, freeLimit: f.defaultLimit ?? 10, freeDays: f.defaultFreeDays ?? 7, quotaPeriod: 'lifetime', lockMessage: '' };
                     return `
-                        <div class="p-3 rounded-2xl bg-neutral-100/90 dark:bg-neutral-800/90 border border-neutral-200 dark:border-neutral-700 space-y-2">
+                        <div class="p-3 rounded-2xl bg-neutral-100/90 dark:bg-neutral-800/90 border ${rule.isPaid ? 'border-amber-400/50' : 'border-emerald-400/40'} space-y-2 text-[10px]">
                             <div class="flex items-center justify-between gap-2">
-                                <input type="text" value="${String(rule.label || f.label).replace(/"/g, '&quot;')}" onchange="updateAdminFeatureRuleField('${f.key}', 'label', this.value)" class="flex-1 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black text-xs">
-                                <button type="button" onclick="toggleAdminSubscriptionFeature('${f.key}')" class="px-2.5 py-1 rounded-xl text-[10px] font-black uppercase ${isPaid ? 'bg-amber-500 text-white' : 'bg-emerald-500 text-white'}">
-                                    ${isPaid ? 'PAID (PRO)' : 'FREE'}
+                                <input type="text" value="${String(rule.label || f.label).replace(/"/g, '&quot;')}" onchange="updateAdminFeatureRuleField('${f.key}', 'label', this.value)" class="flex-1 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black">
+                                <button type="button" onclick="toggleAdminSubscriptionFeature('${f.key}')" class="px-2.5 py-1 rounded-lg font-black uppercase ${rule.isPaid ? 'bg-amber-500 text-white' : 'bg-emerald-600 text-white'}">
+                                    ${rule.isPaid ? 'PAID PRO' : 'FREE'}
                                 </button>
-                                ${isCustom ? `<button type="button" onclick="deleteAdminCustomSubscriptionFeature('${f.key}')" class="text-rose-500 p-1"><i class="fa-solid fa-trash"></i></button>` : ''}
                             </div>
-                            <div class="grid grid-cols-3 gap-1.5 text-[10px]">
+                            <div class="grid grid-cols-3 gap-1.5">
                                 <div>
-                                    <label class="block text-neutral-400 font-bold">Free Limit</label>
-                                    <input type="number" min="0" value="${rule.freeLimit ?? 0}" onchange="updateAdminFeatureRuleField('${f.key}', 'freeLimit', this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black">
+                                    <label class="block text-[8.5px] font-bold text-neutral-400">Free Limit</label>
+                                    <input type="number" min="0" value="${rule.freeLimit ?? 10}" onchange="updateAdminFeatureRuleField('${f.key}', 'freeLimit', this.value)" class="w-full p-1 rounded-lg bg-white dark:bg-neutral-900 border font-black">
                                 </div>
                                 <div>
-                                    <label class="block text-neutral-400 font-bold">Days Free</label>
-                                    <input type="number" min="0" value="${rule.freeDays ?? 0}" onchange="updateAdminFeatureRuleField('${f.key}', 'freeDays', this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black">
-                                </div>
-                                <div>
-                                    <label class="block text-neutral-400 font-bold">Cycle</label>
-                                    <select onchange="updateAdminFeatureRuleField('${f.key}', 'quotaPeriod', this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-bold">
+                                    <label class="block text-[8.5px] font-bold text-neutral-400">Quota Period</label>
+                                    <select onchange="updateAdminFeatureRuleField('${f.key}', 'quotaPeriod', this.value)" class="w-full p-1 rounded-lg bg-white dark:bg-neutral-900 border font-bold">
                                         <option value="lifetime" ${rule.quotaPeriod === 'lifetime' ? 'selected' : ''}>Lifetime</option>
                                         <option value="monthly" ${rule.quotaPeriod === 'monthly' ? 'selected' : ''}>Monthly</option>
                                         <option value="daily" ${rule.quotaPeriod === 'daily' ? 'selected' : ''}>Daily</option>
                                     </select>
                                 </div>
+                                <div>
+                                    <label class="block text-[8.5px] font-bold text-neutral-400">Trial Days</label>
+                                    <input type="number" min="0" value="${rule.freeDays ?? 7}" onchange="updateAdminFeatureRuleField('${f.key}', 'freeDays', this.value)" class="w-full p-1 rounded-lg bg-white dark:bg-neutral-900 border font-black">
+                                </div>
                             </div>
-                            <input type="text" value="${String(rule.lockMessage || '').replace(/"/g, '&quot;')}" onchange="updateAdminFeatureRuleField('${f.key}', 'lockMessage', this.value)" placeholder="Custom lock message..." class="w-full p-1.5 rounded-lg bg-white dark:bg-neutral-900 border text-[10px]">
+                            <input type="text" value="${String(rule.lockMessage || '').replace(/"/g, '&quot;')}" onchange="updateAdminFeatureRuleField('${f.key}', 'lockMessage', this.value)" placeholder="Custom lock message (optional)..." class="w-full p-1.5 rounded-lg bg-white dark:bg-neutral-900 border text-[9.5px]">
                         </div>
                     `;
                 }).join('');
-            }
-
-            const plansEl = document.getElementById('admin-sub-plans-list');
-            if (plansEl) {
-                plansEl.innerHTML = (sc.plans || []).map((pl, idx) => `
-                    <div class="p-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border space-y-1.5">
-                        <div class="grid grid-cols-12 gap-1.5 items-center">
-                            <input type="text" value="${String(pl.name || '').replace(/"/g, '&quot;')}" onchange="updateAdminSubscriptionPlanField(${idx}, 'name', this.value)" class="col-span-4 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black">
-                            <input type="number" min="1" value="${pl.price}" onchange="updateAdminSubscriptionPlanField(${idx}, 'price', this.value)" class="col-span-3 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black text-emerald-600">
-                            <input type="number" min="1" value="${pl.days}" onchange="updateAdminSubscriptionPlanField(${idx}, 'days', this.value)" class="col-span-2 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-bold">
-                            <input type="text" value="${String(pl.badge || '').replace(/"/g, '&quot;')}" onchange="updateAdminSubscriptionPlanField(${idx}, 'badge', this.value)" class="col-span-2 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-bold">
-                            <button type="button" onclick="deleteAdminSubscriptionPlan(${idx})" class="col-span-1 text-rose-500 text-center"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                        <input type="text" value="${String(pl.desc || '').replace(/"/g, '&quot;')}" onchange="updateAdminSubscriptionPlanField(${idx}, 'desc', this.value)" placeholder="Plan description..." class="w-full p-1.5 rounded-lg bg-white dark:bg-neutral-900 border text-[10px]">
-                    </div>
-                `).join('');
             }
 
             const usersEl = document.getElementById('admin-sub-users-override-list');
@@ -18102,27 +17216,20 @@ ${JSON.stringify(liveSnapshot)}`;
                                 </select>
                                 <input type="number" min="0" value="${ov.customPrice ?? ''}" onchange="updateAdminUserSubscriptionOverride('${encKey}', 'customPrice', this.value)" placeholder="Custom ₹" class="col-span-3 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-black">
                                 <input type="date" value="${expVal}" onchange="updateAdminUserSubscriptionOverride('${encKey}', 'expiresAt', this.value)" class="col-span-3 p-1.5 rounded-lg bg-white dark:bg-neutral-900 border font-bold">
-                                <div class="col-span-2 flex gap-1">
-                                    <button type="button" onclick="updateAdminUserSubscriptionOverride('${encKey}', 'activateNow', true)" class="flex-1 py-1 rounded bg-emerald-600 text-white font-black" title="Activate Paid Plan">On</button>
-                                    <button type="button" onclick="updateAdminUserSubscriptionOverride('${encKey}', 'revokeNow', true)" class="flex-1 py-1 rounded bg-rose-500 text-white font-black" title="Revoke Pro">Off</button>
+                                <div class="col-span-2 flex items-center gap-1">
+                                    <button type="button" onclick="updateAdminUserSubscriptionOverride('${encKey}', 'activateNow', true)" class="flex-1 py-1.5 px-1.5 rounded-lg bg-emerald-600 text-white font-black">Activate</button>
+                                    <button type="button" onclick="updateAdminUserSubscriptionOverride('${encKey}', 'revokeNow', true)" class="py-1.5 px-1.5 rounded-lg bg-rose-500/15 text-rose-600 font-black" title="Revoke"><i class="fa-solid fa-ban"></i></button>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-12 gap-1.5 items-center pt-1.5 border-t border-neutral-200/70 dark:border-neutral-700/70 text-[10px]">
-                                <div class="col-span-4 flex items-center gap-1 bg-white dark:bg-neutral-900 border rounded-lg px-2 py-1">
-                                    <span class="text-neutral-400 font-bold">Months:</span>
-                                    <input type="number" id="${monthsInputId}" min="0" max="120" value="1" class="w-full bg-transparent font-black text-purple-600 focus:outline-none">
-                                </div>
-                                <div class="col-span-4 flex items-center gap-1 bg-white dark:bg-neutral-900 border rounded-lg px-2 py-1">
-                                    <span class="text-neutral-400 font-bold">Days:</span>
-                                    <input type="number" id="${daysInputId}" min="0" max="3650" value="0" class="w-full bg-transparent font-black text-indigo-600 focus:outline-none">
-                                </div>
-                                <button type="button" onclick="grantAdminUserFreePlanDuration('${encKey}', '${monthsInputId}', '${daysInputId}')" class="col-span-4 py-1.5 px-2 rounded-lg bg-gradient-to-r from-purple-600 to-emerald-600 hover:from-purple-700 hover:to-emerald-700 text-white font-black shadow-2xs flex items-center justify-center gap-1">
-                                    <span>🎁 Grant Free (₹0)</span>
-                                </button>
+                            <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-neutral-200/70 dark:border-neutral-700/70 text-[10px]">
+                                <span class="font-bold text-purple-600">Grant Free VIP (₹0):</span>
+                                <input type="number" min="0" id="${monthsInputId}" placeholder="Months" class="w-16 p-1 rounded bg-white dark:bg-neutral-900 border font-black">
+                                <input type="number" min="0" id="${daysInputId}" placeholder="Days" class="w-16 p-1 rounded bg-white dark:bg-neutral-900 border font-black">
+                                <button type="button" onclick="grantAdminUserFreePlanDuration('${encKey}', '${monthsInputId}', '${daysInputId}')" class="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-black">Grant Free VIP</button>
                             </div>
                         </div>
                     `;
-                }).join('') || '<div class="text-center py-4 text-neutral-400">No registered users found.</div>';
+                }).join('');
             }
 
             const reqList = [...(sc.paymentRequests || [])].sort((a, b) => (a.status === 'pending' ? -1 : 1) - (b.status === 'pending' ? -1 : 1));
@@ -18174,6 +17281,641 @@ ${JSON.stringify(liveSnapshot)}`;
                 `;
                 }).join('') : '<div class="text-center py-4 text-neutral-400">No subscription payment requests yet.</div>';
             }
+        }
+
+        let selectedCheckoutPlanId = '';
+        let selectedCheckoutPlanName = 'Monthly Pro';
+        let selectedCheckoutAmount = 199;
+        let selectedCheckoutDays = 30;
+        let appliedCheckoutCoupon = '';
+        let appliedCheckoutDiscountPct = 0;
+        let currentSubscriptionStep = 1;
+        let activeCheckoutPayMethod = 'upi';
+
+        function roundWalletAmount(val) {
+            return Math.max(0, Math.round(((Number(val) || 0) + Number.EPSILON) * 100) / 100);
+        }
+
+        function ensureWalletLedgerStore() {
+            if (!adminConfig.walletLedgerStore || typeof adminConfig.walletLedgerStore !== 'object') {
+                adminConfig.walletLedgerStore = {
+                    minWithdrawLimit: 100,
+                    withdrawRequests: [],
+                    ledgerEntries: [],
+                    adminAdjustments: {}
+                };
+            }
+            const w = adminConfig.walletLedgerStore;
+            if (!w.minWithdrawLimit || Number(w.minWithdrawLimit) <= 0) w.minWithdrawLimit = 100;
+            if (!Array.isArray(w.withdrawRequests)) w.withdrawRequests = [];
+            if (!Array.isArray(w.ledgerEntries)) w.ledgerEntries = [];
+            if (!w.adminAdjustments || typeof w.adminAdjustments !== 'object') w.adminAdjustments = {};
+            return w;
+        }
+
+        function getUserReferralWalletBreakdown(userKey = getCurrentUserSubKey()) {
+            const normKey = String(userKey || '').trim().toLowerCase();
+            const ap = ensureAffiliateProgramConfig();
+            const wStore = ensureWalletLedgerStore();
+            const myCode = getOrCreateUserSixDigitReferralCode(normKey);
+            const pct = Math.min(100, Math.max(0.01, Number(ap.commissionPct) || 10));
+
+            const doneRefs = (ap.referrals || []).filter(r =>
+                (String(r.referrerUserKey || '').toLowerCase() === normKey || String(r.referralCode) === myCode) &&
+                r.status === 'done' && r.counted
+            );
+            const earnedFromDone = roundWalletAmount(doneRefs.reduce((sum, r) => {
+                const c = r.commissionAmount !== undefined && r.commissionAmount !== null
+                    ? Number(r.commissionAmount)
+                    : roundWalletAmount(((Number(r.purchasedAmount) || 0) * pct) / 100);
+                return sum + (Number(c) || 0);
+            }, 0));
+            const rw = ap.userRewards?.[normKey] || {};
+            const bonusAdj = Number(rw.bonusPointsAdjustment) || 0;
+            const earned10 = Math.max(0, roundWalletAmount(earnedFromDone + bonusAdj));
+
+            const adjs = Array.isArray(wStore.adminAdjustments[normKey]) ? wStore.adminAdjustments[normKey] : [];
+            const adminCredits = roundWalletAmount(adjs.filter(a => a.type === 'credit').reduce((s, a) => s + (Number(a.amount) || 0), 0));
+            const adminDebits = roundWalletAmount(adjs.filter(a => a.type === 'debit').reduce((s, a) => s + (Number(a.amount) || 0), 0));
+
+            const userWds = (wStore.withdrawRequests || []).filter(w => String(w.userKey || '').toLowerCase() === normKey);
+            const activeWithdrawals = roundWalletAmount(userWds.filter(w => w.status !== 'rejected').reduce((s, w) => s + (Number(w.amount) || 0), 0));
+            const refundedWithdrawals = roundWalletAmount(userWds.filter(w => w.status === 'rejected').reduce((s, w) => s + (Number(w.amount) || 0), 0));
+
+            const userLedger = (wStore.ledgerEntries || []).filter(e => String(e.userKey || '').toLowerCase() === normKey);
+            const planSpent = roundWalletAmount(userLedger.reduce((s, e) => s + (Number(e.amount) || 0), 0));
+
+            const availableReferralBalance = Math.max(0, roundWalletAmount(earned10 + adminCredits - adminDebits - activeWithdrawals - planSpent));
+            return {
+                earned10,
+                adminCredits,
+                adminDebits,
+                activeWithdrawals,
+                refundedWithdrawals,
+                planSpent,
+                availableReferralBalance
+            };
+        }
+
+        function getPromoCouponLifecycleStatus(c) {
+            if (!c) return { valid: false, label: 'Invalid', badgeClass: 'bg-rose-500/15 text-rose-600' };
+            const today = new Date().toISOString().split('T')[0];
+            if (c.active === false) return { valid: false, label: 'Inactive', badgeClass: 'bg-neutral-300 dark:bg-neutral-700 text-neutral-600' };
+            if (c.validFrom && today < c.validFrom) return { valid: false, label: 'Upcoming', badgeClass: 'bg-indigo-500/15 text-indigo-600' };
+            if (c.validUntil && today > c.validUntil) return { valid: false, label: 'Expired', badgeClass: 'bg-rose-500/15 text-rose-600' };
+            if (!c.isUnlimited && (Number(c.usedCount) || 0) >= (Number(c.maxUsageLimit) || 0)) {
+                return { valid: false, label: 'Limit Reached', badgeClass: 'bg-amber-500/15 text-amber-700' };
+            }
+            return { valid: true, label: 'Active', badgeClass: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' };
+        }
+
+        function updateSubscriptionStatusBadges() {
+            const access = getUserSubscriptionAccess();
+            const badgeText = document.getElementById('header-sub-badge-text');
+            if (badgeText) badgeText.textContent = access.isPro ? 'VIP Pro' : 'Get Pro';
+            const menuSub = document.getElementById('menu-sub-plan-sub');
+            const menuPill = document.getElementById('menu-sub-plan-pill');
+            if (menuSub) menuSub.textContent = access.isPro ? `${access.planName} (${access.isVipFree ? 'Unlimited' : `${access.remainingDays}d left`})` : 'Upgrade via Razorpay, UPI or Wallet';
+            if (menuPill) {
+                menuPill.textContent = access.isPro ? 'PRO' : 'Free';
+                menuPill.className = access.isPro
+                    ? 'px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[9px] font-black uppercase tracking-wider'
+                    : 'px-2 py-0.5 rounded-full bg-amber-500 text-white text-[9px] font-black uppercase tracking-wider';
+            }
+        }
+
+        function startSubscriptionCountdownTicker() {
+            updateSubscriptionStatusBadges();
+            if (window._subCountdownTicker) clearInterval(window._subCountdownTicker);
+            window._subCountdownTicker = setInterval(() => {
+                updateSubscriptionStatusBadges();
+            }, 30000);
+        }
+
+        function checkSubscriptionQuota(kind) {
+            const access = getUserSubscriptionAccess();
+            if (access.isPro) return true;
+            const sc = ensureSubscriptionConfig();
+            if (kind === 'entries') {
+                const limit = Math.max(1, Number(sc.freeTxLimit) || 25);
+                if ((appState.transactions || []).length >= limit) {
+                    showToast(`Free limit (${limit} entries) reached! Upgrade to VIP Pro.`, 'error');
+                    openSubscriptionUpgradeModal('dashboard');
+                    return false;
+                }
+            } else if (kind === 'customers') {
+                const limit = Math.max(1, Number(sc.freeCustLimit) || 5);
+                if ((appState.udharCustomers || []).length >= limit) {
+                    showToast(`Free limit (${limit} customers) reached! Upgrade to VIP Pro.`, 'error');
+                    openSubscriptionUpgradeModal('udhar');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function openSubscriptionUpgradeModal(highlightFeatureKey = '', stepNum = 1) {
+            const sc = ensureSubscriptionConfig();
+            const userKey = getCurrentUserSubKey();
+            const ov = sc.userOverrides[userKey] || {};
+            const access = getUserSubscriptionAccess(userKey);
+
+            const statusEl = document.getElementById('sub-modal-current-status');
+            if (statusEl) statusEl.textContent = `Current Status: ${access.planName}`;
+
+            const plans = sc.plans || [];
+            if (!selectedCheckoutPlanId || !plans.some(p => p.id === selectedCheckoutPlanId)) {
+                const defaultPl = plans.find(p => p.id === ov.assignedPlanId) || plans[0];
+                if (defaultPl) {
+                    const pInfo = getPlanPricingDisplayInfo(defaultPl, ov);
+                    selectedCheckoutPlanId = defaultPl.id;
+                    selectedCheckoutPlanName = defaultPl.name;
+                    selectedCheckoutDays = Number(defaultPl.days) || 30;
+                    selectedCheckoutAmount = pInfo.offerPrice;
+                }
+            }
+
+            const plansGrid = document.getElementById('sub-modal-plans-grid');
+            if (plansGrid) {
+                plansGrid.innerHTML = plans.map(pl => {
+                    const isSelected = pl.id === selectedCheckoutPlanId;
+                    const pInfo = getPlanPricingDisplayInfo(pl, ov);
+                    const effPrice = pInfo.offerPrice;
+                    const badgeHtml = pInfo.hasDiscount
+                        ? `<div class="flex items-center gap-1 flex-wrap justify-end">
+                               <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-[9px] font-black">Save ${pInfo.discountPct}%</span>
+                               ${pl.badge ? `<span class="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-[9px] font-black">${pl.badge}</span>` : ''}
+                           </div>`
+                        : `<span class="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-[9px] font-black">${pl.badge || `${pl.days}d`}</span>`;
+                    return `
+                        <div onclick="selectSubscriptionCheckoutPlan('${pl.id}', false)" class="p-3.5 rounded-2xl border-2 text-left cursor-pointer transition flex flex-col justify-between gap-2 ${isSelected ? 'border-primary-600 bg-primary-50/90 dark:bg-primary-950/60 shadow-md ring-2 ring-primary-500/20' : 'border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 hover:border-primary-400'}">
+                            <div>
+                                <div class="flex items-center justify-between gap-1">
+                                    <span class="font-black text-neutral-900 dark:text-white">${pl.name}</span>
+                                    ${badgeHtml}
+                                </div>
+                                <div class="mt-1.5 flex items-baseline gap-1.5 flex-wrap">
+                                    ${pInfo.hasDiscount ? `<del class="text-xs font-bold text-neutral-400 line-through">₹${pInfo.originalPrice}</del>` : ''}
+                                    <span class="text-xl font-black text-primary-600">₹${effPrice}</span>
+                                    <span class="text-[10px] font-bold text-neutral-400">/ ${pl.days}d</span>
+                                </div>
+                                <div class="text-[10px] text-neutral-500 mt-1 leading-snug">${pl.desc || 'All Pro features unlocked'}</div>
+                            </div>
+                            <button type="button" onclick="event.stopPropagation(); selectSubscriptionCheckoutPlan('${pl.id}', true)" class="w-full py-1.5 px-2.5 rounded-xl ${isSelected ? 'bg-primary-600 text-white' : 'bg-neutral-200/80 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200'} font-black text-[10px] transition">
+                                ${isSelected ? '✓ Selected • Checkout →' : 'Select Plan →'}
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const proceedTxt = document.getElementById('sub-step1-proceed-text');
+            if (proceedTxt) proceedTxt.textContent = `Continue with ${selectedCheckoutPlanName} (₹${selectedCheckoutAmount})`;
+
+            const featPills = document.getElementById('sub-modal-feature-status-pills');
+            if (featPills) {
+                featPills.innerHTML = SUBSCRIPTION_FEATURE_CATALOG.slice(0, 6).map(f => {
+                    const st = getFeatureAccessStatus(f.key);
+                    return `<div class="p-2 rounded-xl bg-white dark:bg-neutral-900 border flex items-center justify-between gap-1">
+                        <span class="font-bold truncate">${f.label}</span>
+                        <span class="font-black text-[9px] ${st.allowed ? 'text-emerald-600' : 'text-amber-600'}">${st.label}</span>
+                    </div>`;
+                }).join('');
+            }
+
+            refreshSubscriptionCheckoutQr();
+            goToSubscriptionStep(stepNum);
+            document.getElementById('subscription-upgrade-modal')?.classList.replace('hidden', 'flex');
+        }
+
+        function closeSubscriptionUpgradeModal() {
+            document.getElementById('subscription-upgrade-modal')?.classList.replace('flex', 'hidden');
+        }
+
+        function selectSubscriptionCheckoutPlan(planId, advanceToStep2 = false) {
+            const sc = ensureSubscriptionConfig();
+            const userKey = getCurrentUserSubKey();
+            const ov = sc.userOverrides[userKey] || {};
+            const pl = (sc.plans || []).find(p => p.id === planId);
+            if (!pl) return;
+            const pInfo = getPlanPricingDisplayInfo(pl, ov);
+            selectedCheckoutPlanId = pl.id;
+            selectedCheckoutPlanName = pl.name;
+            selectedCheckoutDays = Number(pl.days) || 30;
+            selectedCheckoutAmount = pInfo.offerPrice;
+            openSubscriptionUpgradeModal('', advanceToStep2 ? 2 : 1);
+        }
+
+        function goToSubscriptionStep(stepNum) {
+            currentSubscriptionStep = stepNum === 2 ? 2 : 1;
+            const p1 = document.getElementById('sub-step-1-plans-page');
+            const p2 = document.getElementById('sub-step-2-checkout-page');
+            const pill1 = document.getElementById('sub-step-pill-1');
+            const pill2 = document.getElementById('sub-step-pill-2');
+            if (p1) p1.classList.toggle('hidden', currentSubscriptionStep !== 1);
+            if (p2) p2.classList.toggle('hidden', currentSubscriptionStep !== 2);
+            if (pill1 && pill2) {
+                pill1.className = currentSubscriptionStep === 1
+                    ? 'py-2 px-3 rounded-xl font-black text-[11px] flex items-center justify-center gap-2 bg-white dark:bg-neutral-900 text-primary-600 dark:text-primary-400 shadow-xs transition'
+                    : 'py-2 px-3 rounded-xl font-bold text-[11px] flex items-center justify-center gap-2 text-neutral-500 dark:text-neutral-400 transition';
+                pill2.className = currentSubscriptionStep === 2
+                    ? 'py-2 px-3 rounded-xl font-black text-[11px] flex items-center justify-center gap-2 bg-white dark:bg-neutral-900 text-primary-600 dark:text-primary-400 shadow-xs transition'
+                    : 'py-2 px-3 rounded-xl font-bold text-[11px] flex items-center justify-center gap-2 text-neutral-500 dark:text-neutral-400 transition';
+            }
+            if (currentSubscriptionStep === 2) {
+                refreshSubscriptionCheckoutQr();
+            }
+        }
+
+        function setSubscriptionCheckoutPaymentMethod(method) {
+            activeCheckoutPayMethod = ['upi', 'razorpay', 'wallet'].includes(method) ? method : 'upi';
+            const btnMap = {
+                upi: document.getElementById('sub-paymode-upi-btn'),
+                razorpay: document.getElementById('sub-paymode-razorpay-btn'),
+                wallet: document.getElementById('sub-paymode-wallet-btn')
+            };
+            Object.entries(btnMap).forEach(([k, btn]) => {
+                if (!btn) return;
+                btn.className = k === activeCheckoutPayMethod
+                    ? 'py-2.5 px-2 rounded-xl bg-primary-600 text-white font-black text-[11px] flex items-center justify-center gap-1.5 shadow-sm transition'
+                    : 'py-2.5 px-2 rounded-xl bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 font-black text-[11px] flex items-center justify-center gap-1.5 transition';
+            });
+            document.getElementById('sub-modal-upi-checkout-box')?.classList.toggle('hidden', activeCheckoutPayMethod !== 'upi');
+            document.getElementById('sub-modal-razorpay-checkout-box')?.classList.toggle('hidden', activeCheckoutPayMethod !== 'razorpay');
+            document.getElementById('sub-modal-wallet-checkout-box')?.classList.toggle('hidden', activeCheckoutPayMethod !== 'wallet');
+            refreshSubscriptionCheckoutQr();
+        }
+
+        function getCheckoutNetPayableInfo() {
+            const baseAmt = Math.max(0, Math.round(Number(selectedCheckoutAmount) || 0));
+            const discountAmt = Math.round((baseAmt * appliedCheckoutDiscountPct) / 100);
+            const netAmt = Math.max(0, baseAmt - discountAmt);
+            return { baseAmt, discountAmt, netAmt };
+        }
+
+        function applySubscriptionCheckoutCoupon() {
+            const sc = ensureSubscriptionConfig();
+            const code = (document.getElementById('sub-checkout-coupon-input')?.value || '').trim().toUpperCase();
+            const statusEl = document.getElementById('sub-coupon-status-text');
+            const badgeEl = document.getElementById('sub-coupon-applied-badge');
+            if (!code) {
+                appliedCheckoutCoupon = '';
+                appliedCheckoutDiscountPct = 0;
+                badgeEl?.classList.add('hidden');
+                if (statusEl) statusEl.textContent = 'Enter promo code for instant discount';
+                refreshSubscriptionCheckoutQr();
+                return;
+            }
+            const coupon = (sc.coupons || []).find(c => (c.code || '').toUpperCase() === code);
+            const st = getPromoCouponLifecycleStatus(coupon);
+            if (!coupon || !st.valid) {
+                appliedCheckoutCoupon = '';
+                appliedCheckoutDiscountPct = 0;
+                badgeEl?.classList.add('hidden');
+                if (statusEl) {
+                    statusEl.textContent = coupon ? `Coupon ${code} is ${st.label}` : `Invalid promo code "${code}"`;
+                    statusEl.className = 'text-[10px] font-bold text-rose-600';
+                }
+                showToast(coupon ? `Coupon ${code} is ${st.label}` : 'Invalid promo coupon code', 'error');
+                refreshSubscriptionCheckoutQr();
+                return;
+            }
+            appliedCheckoutCoupon = coupon.code;
+            appliedCheckoutDiscountPct = Number(coupon.discountPct) || 0;
+            badgeEl?.classList.remove('hidden');
+            if (statusEl) {
+                statusEl.textContent = `Applied ${coupon.code}: ${appliedCheckoutDiscountPct}% OFF!`;
+                statusEl.className = 'text-[10px] font-black text-emerald-600';
+            }
+            refreshSubscriptionCheckoutQr();
+            showToast(`Promo code ${coupon.code} applied (${appliedCheckoutDiscountPct}% OFF)!`);
+        }
+
+        function refreshSubscriptionCheckoutQr() {
+            const sc = ensureSubscriptionConfig();
+            const sess = getAuthSession() || {};
+            const userKey = getCurrentUserSubKey();
+            const availWalletBal = getAvailableReferralBalance(userKey);
+            const { baseAmt, discountAmt, netAmt } = getCheckoutNetPayableInfo();
+
+            const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+            setTxt('sub-checkout-plan-summary', `${selectedCheckoutPlanName} (${selectedCheckoutDays} Days) • ₹${netAmt}`);
+            setTxt('sub-checkout-user-name', getPrimaryUserName());
+            setTxt('sub-checkout-user-phone', sess.phone ? `+91 ${sess.phone}` : (appState.userProfile?.phone ? `+91 ${appState.userProfile.phone}` : 'Not Linked'));
+            setTxt('sub-checkout-user-email', sess.email || appState.userProfile?.email || userKey);
+            setTxt('sub-bill-base-amt', `₹${baseAmt}`);
+            setTxt('sub-bill-discount-amt', `-₹${discountAmt}`);
+            setTxt('sub-bill-net-amt', `₹${netAmt}`);
+            document.getElementById('sub-bill-discount-row')?.classList.toggle('hidden', discountAmt <= 0);
+
+            setTxt('sub-wallet-bal-pill', `Wallet Bal: ₹${availWalletBal}`);
+            setTxt('sub-wallet-checkout-avail-text', `₹${availWalletBal}`);
+            setTxt('sub-wallet-pay-btn-label', `Pay ₹${netAmt} from Referral Wallet & Activate`);
+            setTxt('sub-razorpay-pay-btn-label', `Pay ₹${netAmt} via Razorpay & Activate Now`);
+            setTxt('sub-checkout-pay-btn-amt', `₹${netAmt}`);
+
+            const merchantUpi = sc.upiId || '6393954985@upi';
+            setTxt('sub-checkout-upi-display', merchantUpi);
+            const qrImg = document.getElementById('sub-checkout-qr-img');
+            if (qrImg) {
+                const upiUrl = `upi://pay?pa=${encodeURIComponent(merchantUpi)}&pn=${encodeURIComponent(sc.merchantLabel || 'NeoKhata')}&am=${netAmt.toFixed(2)}&cu=INR&tn=${encodeURIComponent(`NeoKhata ${selectedCheckoutPlanName}`)}`;
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+            }
+        }
+
+        function launchSubscriptionUpiApp(appType) {
+            const sc = ensureSubscriptionConfig();
+            const { netAmt } = getCheckoutNetPayableInfo();
+            const merchantUpi = sc.upiId || '6393954985@upi';
+            const params = `pa=${encodeURIComponent(merchantUpi)}&pn=${encodeURIComponent(sc.merchantLabel || 'NeoKhata')}&am=${netAmt.toFixed(2)}&cu=INR&tn=${encodeURIComponent(`NeoKhata ${selectedCheckoutPlanName}`)}`;
+            const schemeMap = {
+                gpay: `tez://upi/pay?${params}`,
+                phonepe: `phonepe://pay?${params}`,
+                paytm: `paytmmp://pay?${params}`,
+                any: `upi://pay?${params}`
+            };
+            window.location.href = schemeMap[appType] || schemeMap.any;
+        }
+
+        function downloadSubscriptionQrCode() {
+            const qrImg = document.getElementById('sub-checkout-qr-img');
+            if (!qrImg?.src) return;
+            window.open(qrImg.src, '_blank', 'noopener,noreferrer');
+        }
+
+        function handleSubscriptionUtrInput(val) {
+            const clean = String(val || '').replace(/\D/g, '').slice(0, 12);
+            const inp = document.getElementById('sub-checkout-utr-input');
+            if (inp && inp.value !== clean) inp.value = clean;
+            const cnt = document.getElementById('sub-utr-digit-counter');
+            if (cnt) {
+                cnt.textContent = `${clean.length} / 12 Digits`;
+                cnt.className = clean.length === 12
+                    ? 'px-2.5 py-0.5 rounded-full bg-emerald-500/15 font-mono text-[10px] font-black text-emerald-700 dark:text-emerald-300'
+                    : 'px-2.5 py-0.5 rounded-full bg-neutral-200/80 dark:bg-white/10 font-mono text-[10px] font-black text-neutral-600 dark:text-slate-300';
+            }
+        }
+
+        function submitSubscriptionUtrPayment(e) {
+            e.preventDefault();
+            const sc = ensureSubscriptionConfig();
+            const utr = String(document.getElementById('sub-checkout-utr-input')?.value || '').replace(/\D/g, '');
+            const fb = document.getElementById('sub-verify-feedback-box');
+            if (utr.length !== 12) {
+                if (fb) {
+                    fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-rose-500/15 text-rose-600 border border-rose-500/35';
+                    fb.textContent = 'Please enter a valid 12-digit numeric UTR / Reference Number.';
+                }
+                showToast('Enter exact 12-digit UTR number!', 'error');
+                return;
+            }
+            if ((sc.paymentRequests || []).some(r => String(r.utr) === utr)) {
+                if (fb) {
+                    fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-amber-500/15 text-amber-700 border border-amber-500/35';
+                    fb.textContent = `UTR ${utr} has already been submitted and is awaiting verification.`;
+                }
+                showToast('Duplicate UTR number detected!', 'error');
+                return;
+            }
+
+            const userKey = getCurrentUserSubKey();
+            const sess = getAuthSession() || {};
+            const { baseAmt, discountAmt, netAmt } = getCheckoutNetPayableInfo();
+            const reqObj = {
+                id: `subreq_${Date.now()}`,
+                userKey,
+                neoUserId: ensureResolvedUniqueIdForSupport(),
+                userName: getPrimaryUserName(),
+                userPhone: sess.phone || appState.userProfile?.phone || '',
+                userEmail: sess.email || appState.userProfile?.email || '',
+                planId: selectedCheckoutPlanId,
+                planName: selectedCheckoutPlanName,
+                planDays: selectedCheckoutDays,
+                baseAmount: baseAmt,
+                discountAmount: discountAmt,
+                amount: netAmt,
+                couponCode: appliedCheckoutCoupon || '',
+                utr,
+                paymentSource: 'UPI',
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+            sc.paymentRequests.unshift(reqObj);
+            window._lastSubmittedSubscriptionUtr = { utr, planName: selectedCheckoutPlanName, amount: netAmt };
+
+            safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
+            saveAllAdminChangesLive();
+            updateSubscriptionStatusBadges();
+
+            if (fb) {
+                fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-200 border border-emerald-500/35';
+                fb.textContent = `✅ 12-Digit UTR (${utr}) submitted! Status: Pending Manual Admin Verification.`;
+            }
+            document.getElementById('sub-post-utr-whatsapp-card')?.classList.remove('hidden');
+            showToast('UTR submitted! Redirecting to WhatsApp for fast approval...');
+            openNeoKhataWhatsAppSupport('utr', { planName: selectedCheckoutPlanName, amount: netAmt, utr });
+        }
+
+        const _processedRazorpayPaymentIds = new Set();
+
+        async function initiateRazorpaySubscriptionCheckout() {
+            const fb = document.getElementById('sub-razorpay-feedback-box');
+            const showRzpMsg = (msg, isErr = true) => {
+                if (fb) {
+                    fb.className = isErr
+                        ? 'p-3 rounded-xl text-[11px] font-bold bg-rose-500/15 text-rose-600 border border-rose-500/35'
+                        : 'p-3 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-700 border border-emerald-500/35';
+                    fb.textContent = msg;
+                }
+                showToast(msg, isErr ? 'error' : 'success');
+            };
+
+            try {
+                const sc = ensureSubscriptionConfig();
+                const keyId = String(sc.razorpayKeyId || '').trim();
+                if (!keyId || !keyId.startsWith('rzp_')) {
+                    showRzpMsg('Razorpay Key ID is not configured by Admin yet. Please use Direct UPI or Referral Wallet.', true);
+                    return;
+                }
+
+                const { baseAmt, discountAmt, netAmt } = getCheckoutNetPayableInfo();
+                const amountPaise = Math.round(Number(netAmt) * 100);
+                if (amountPaise < 100) {
+                    showRzpMsg('Payable amount must be at least ₹1 for Razorpay checkout.', true);
+                    return;
+                }
+
+                await loadScriptOnce('https://checkout.razorpay.com/v1/checkout.js');
+                if (typeof window.Razorpay !== 'function') {
+                    showRzpMsg('Razorpay SDK could not be initialized. Please check your internet connection.', true);
+                    return;
+                }
+
+                const sess = getAuthSession() || {};
+                const userKey = getCurrentUserSubKey();
+                const neoId = ensureResolvedUniqueIdForSupport();
+                const userName = getPrimaryUserName();
+                const userPhone = extractCleanPhone(sess.phone || appState.userProfile?.phone || '');
+                const userEmail = (sess.email || appState.userProfile?.email || '').trim();
+
+                const options = {
+                    key: keyId,
+                    amount: amountPaise,
+                    currency: 'INR',
+                    name: adminConfig.branding?.appName || 'NeoKhata',
+                    description: `${selectedCheckoutPlanName} (${selectedCheckoutDays} Days)`,
+                    prefill: {
+                        name: userName,
+                        email: userEmail || undefined,
+                        contact: userPhone ? `+91${userPhone}` : undefined
+                    },
+                    notes: {
+                        user_key: userKey,
+                        neokhata_id: neoId,
+                        plan_id: selectedCheckoutPlanId,
+                        plan_name: selectedCheckoutPlanName
+                    },
+                    theme: { color: '#2453d6' },
+                    handler: function(response) {
+                        const payId = String(response?.razorpay_payment_id || '').trim();
+                        if (!payId || _processedRazorpayPaymentIds.has(payId)) return;
+                        _processedRazorpayPaymentIds.add(payId);
+
+                        const latestSc = ensureSubscriptionConfig();
+                        const validDays = Number(selectedCheckoutDays) || 30;
+                        latestSc.userOverrides[userKey] = {
+                            ...(latestSc.userOverrides[userKey] || {}),
+                            planName: selectedCheckoutPlanName,
+                            assignedPlanId: selectedCheckoutPlanId,
+                            expiresAt: new Date(Date.now() + validDays * 86400000).toISOString()
+                        };
+                        latestSc.paymentRequests.unshift({
+                            id: `rzp_${Date.now()}`,
+                            userKey,
+                            neoUserId: neoId,
+                            userName,
+                            userPhone,
+                            userEmail,
+                            planId: selectedCheckoutPlanId,
+                            planName: selectedCheckoutPlanName,
+                            planDays: validDays,
+                            baseAmount: baseAmt,
+                            discountAmount: discountAmt,
+                            amount: netAmt,
+                            couponCode: appliedCheckoutCoupon || '',
+                            utr: payId,
+                            paymentSource: 'Razorpay',
+                            status: 'approved',
+                            createdAt: new Date().toISOString(),
+                            reviewedAt: new Date().toISOString()
+                        });
+
+                        if (typeof markAffiliateReferralDoneOnPlanPurchase === 'function') {
+                            markAffiliateReferralDoneOnPlanPurchase(userKey, selectedCheckoutPlanName, netAmt);
+                        }
+
+                        safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
+                        saveAllAdminChangesLive();
+                        updateSubscriptionStatusBadges();
+                        renderUserProfileHub();
+                        showRzpMsg(`✅ Razorpay Payment Verified (${payId})! ${selectedCheckoutPlanName} is now ACTIVE.`, false);
+                        setTimeout(() => closeSubscriptionUpgradeModal(), 1200);
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            showRzpMsg('Razorpay payment window closed. No plan was activated.', true);
+                        }
+                    }
+                };
+
+                const rzp = new window.Razorpay(options);
+                rzp.on('payment.failed', function(resp) {
+                    const reason = resp?.error?.description || 'Payment failed';
+                    showRzpMsg(`Razorpay Payment Failed: ${reason}`, true);
+                });
+                rzp.open();
+            } catch (err) {
+                showRzpMsg(err?.message || 'Unable to launch Razorpay Checkout right now.', true);
+            }
+        }
+
+        function paySubscriptionViaWallet() {
+            const sc = ensureSubscriptionConfig();
+            const wStore = ensureWalletLedgerStore();
+            const userKey = getCurrentUserSubKey();
+            const availBal = getAvailableReferralBalance(userKey);
+            const { baseAmt, discountAmt, netAmt } = getCheckoutNetPayableInfo();
+            const fb = document.getElementById('sub-wallet-checkout-feedback');
+
+            if (netAmt > availBal) {
+                const errMsg = `Insufficient Referral Wallet balance (Available: ₹${availBal})! Required: ₹${netAmt}.`;
+                if (fb) {
+                    fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-rose-500/15 text-rose-600 border border-rose-500/35';
+                    fb.textContent = errMsg;
+                }
+                showToast(errMsg, 'error');
+                return;
+            }
+
+            const sess = getAuthSession() || {};
+            const neoId = ensureResolvedUniqueIdForSupport();
+            const validDays = Number(selectedCheckoutDays) || 30;
+            const txRef = `WALLET-${Date.now().toString().slice(-8)}`;
+
+            wStore.ledgerEntries.unshift({
+                id: `wled_${Date.now()}`,
+                userKey,
+                amount: netAmt,
+                note: `Plan Purchase: ${selectedCheckoutPlanName} (${validDays}d)`,
+                createdAt: new Date().toISOString()
+            });
+
+            sc.userOverrides[userKey] = {
+                ...(sc.userOverrides[userKey] || {}),
+                planName: selectedCheckoutPlanName,
+                assignedPlanId: selectedCheckoutPlanId,
+                expiresAt: new Date(Date.now() + validDays * 86400000).toISOString()
+            };
+
+            sc.paymentRequests.unshift({
+                id: `subw_${Date.now()}`,
+                userKey,
+                neoUserId: neoId,
+                userName: getPrimaryUserName(),
+                userPhone: sess.phone || appState.userProfile?.phone || '',
+                userEmail: sess.email || appState.userProfile?.email || '',
+                planId: selectedCheckoutPlanId,
+                planName: selectedCheckoutPlanName,
+                planDays: validDays,
+                baseAmount: baseAmt,
+                discountAmount: discountAmt,
+                amount: netAmt,
+                couponCode: appliedCheckoutCoupon || '',
+                utr: txRef,
+                paymentSource: 'Wallet',
+                status: 'approved',
+                createdAt: new Date().toISOString(),
+                reviewedAt: new Date().toISOString()
+            });
+
+            if (typeof markAffiliateReferralDoneOnPlanPurchase === 'function') {
+                markAffiliateReferralDoneOnPlanPurchase(userKey, selectedCheckoutPlanName, netAmt);
+            }
+
+            safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
+            saveAllAdminChangesLive();
+            updateMenuWalletBalanceBadge();
+            updateSubscriptionStatusBadges();
+            renderUserProfileHub();
+            refreshSubscriptionCheckoutQr();
+
+            const okMsg = `✅ Paid ₹${netAmt} from Referral Wallet! ${selectedCheckoutPlanName} is now ACTIVE.`;
+            if (fb) {
+                fb.className = 'p-3 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-700 border border-emerald-500/35';
+                fb.textContent = okMsg;
+            }
+            showToast(okMsg);
+            setTimeout(() => closeSubscriptionUpgradeModal(), 1200);
         }
 
         function editAdminSubscriptionRequestField(reqId, field, val) {
@@ -18474,32 +18216,49 @@ ${JSON.stringify(liveSnapshot)}`;
             if (e && typeof e.preventDefault === 'function') e.preventDefault();
             const sc = ensureSubscriptionConfig();
             const name = (document.getElementById('adm-new-plan-name')?.value || '').trim();
-            const price = Math.max(0, parseInt(document.getElementById('adm-new-plan-price')?.value, 10) || 199);
+            const rawOrig = parseFloat(document.getElementById('adm-new-plan-orig-price')?.value);
+            const rawOffer = parseFloat(document.getElementById('adm-new-plan-price')?.value);
+            const offerPrice = !isNaN(rawOffer) && rawOffer >= 0 ? Math.round(rawOffer) : 199;
+            const originalPrice = !isNaN(rawOrig) && rawOrig > offerPrice ? Math.round(rawOrig) : 0;
             const days = Math.max(1, parseInt(document.getElementById('adm-new-plan-days')?.value, 10) || 30);
             const badge = (document.getElementById('adm-new-plan-badge')?.value || 'Pro').trim();
             if (!name) return;
             sc.plans.push({
                 id: `plan_${Date.now()}`,
                 name,
-                price,
+                originalPrice,
+                price: offerPrice,
                 days,
                 badge: badge || 'Pro',
                 desc: `${days} days full VIP access`
             });
             if (document.getElementById('adm-new-plan-name')) document.getElementById('adm-new-plan-name').value = '';
+            if (document.getElementById('adm-new-plan-orig-price')) document.getElementById('adm-new-plan-orig-price').value = '';
             if (document.getElementById('adm-new-plan-price')) document.getElementById('adm-new-plan-price').value = '';
             safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
             renderAdminSubscriptionStudio();
             saveAllAdminChangesLive();
-            showToast(`Added subscription plan "${name}" (₹${price} / ${days}d)`);
+            const discPct = originalPrice > offerPrice ? Math.round(((originalPrice - offerPrice) / originalPrice) * 100) : 0;
+            showToast(discPct > 0
+                ? `Added plan "${name}" (MRP ₹${originalPrice} → Offer ₹${offerPrice} • Save ${discPct}%)`
+                : `Added subscription plan "${name}" (₹${offerPrice} / ${days}d)`);
         }
 
         function updateAdminSubscriptionPlanField(idx, field, val) {
             const sc = ensureSubscriptionConfig();
             const pl = sc.plans?.[idx];
             if (!pl) return;
-            if (field === 'price' || field === 'days') pl[field] = Math.max(0, parseInt(val, 10) || 0);
-            else pl[field] = String(val || '').trim();
+            if (field === 'originalPrice') {
+                const parsedOrig = Math.max(0, Math.round(parseFloat(val) || 0));
+                pl.originalPrice = parsedOrig > (Number(pl.price) || 0) ? parsedOrig : 0;
+            } else if (field === 'price' || field === 'days') {
+                pl[field] = Math.max(0, Math.round(parseFloat(val) || 0));
+                if (field === 'price' && (Number(pl.originalPrice) || 0) <= pl.price) {
+                    pl.originalPrice = 0;
+                }
+            } else {
+                pl[field] = String(val || '').trim();
+            }
             safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
             renderAdminSubscriptionStudio();
             saveAllAdminChangesLive();
