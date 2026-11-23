@@ -3626,7 +3626,7 @@
                                 <h4 class="text-base font-black mt-1 text-neutral-900 dark:text-white flex items-center gap-2">
                                     <i class="fa-solid fa-rectangle-ad text-emerald-600"></i> AdMob &amp; AdSense / Adsterra Monetization Studio
                                 </h4>
-                                <p class="text-[11px] text-neutral-500 mt-0.5">Full control over delivery mode, per-slot AdSense/AdMob &amp; Adsterra tags, every screen/section placement, frequency caps &amp; Top-Viewed Screen High-CPM targeting.</p>
+                                <p class="text-[11px] text-neutral-500 mt-0.5">Full control over delivery mode, 5+ between-box slots per page, Pre-PDF-Download &amp; Action Ad Gate, per-slot sizes &amp; Top-Viewed Screen targeting.</p>
                             </div>
                             <div class="flex items-center gap-2 flex-wrap">
                                 <span id="active-ad-network-badge" class="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-black text-[11px]">Both (AdMob + Adsterra) Active</span>
@@ -3652,23 +3652,70 @@
                             </button>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 p-3.5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 p-3.5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
                             <label class="p-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-between cursor-pointer font-black">
                                 <span>Master Ads Global Switch</span>
                                 <input type="checkbox" id="admin-ads-master-enabled" checked onchange="saveFullMonetizationStudio(true)" class="w-4 h-4 accent-emerald-600">
                             </label>
+                            <label class="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-between cursor-pointer font-black text-indigo-800 dark:text-indigo-200">
+                                <span>Show Slot Frames When Empty</span>
+                                <input type="checkbox" id="admin-ad-show-slot-frames" checked onchange="saveFullMonetizationStudio(true)" class="w-4 h-4 accent-indigo-600">
+                            </label>
                             <div>
                                 <label class="block text-[10px] font-black uppercase text-neutral-500 mb-1">Max Impressions / Session</label>
-                                <input type="number" id="admin-ad-freq-cap" min="1" max="500" value="25" class="w-full p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border font-black">
+                                <input type="number" id="admin-ad-freq-cap" min="1" max="500" value="50" class="w-full p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border font-black">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-black uppercase text-neutral-500 mb-1">Refresh Cooldown (Seconds)</label>
-                                <input type="number" id="admin-ad-cooldown-sec" min="0" max="3600" value="30" class="w-full p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border font-black">
+                                <input type="number" id="admin-ad-cooldown-sec" min="0" max="3600" value="15" class="w-full p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 border font-black">
                             </div>
                             <label class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between cursor-pointer font-black text-amber-800 dark:text-amber-300">
                                 <span>Hide Ads for VIP Pro Users</span>
                                 <input type="checkbox" id="admin-ad-hide-for-pro" class="w-4 h-4 accent-amber-600">
                             </label>
+                        </div>
+
+                        <!-- Pre-PDF-Download & Action Intercept Ad Gate Controls -->
+                        <div class="p-4 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-white to-amber-500/10 dark:from-indigo-950/40 dark:via-neutral-900 dark:to-amber-950/30 border border-indigo-400/50 dark:border-indigo-700/60 space-y-3">
+                            <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-neutral-200/70 dark:border-neutral-800">
+                                <div>
+                                    <span class="px-2 py-0.5 rounded-full bg-indigo-600 text-white text-[9px] font-black uppercase tracking-wider">Action &amp; PDF Download Ad Gate</span>
+                                    <h5 class="font-black text-sm text-neutral-900 dark:text-white mt-1 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-file-pdf text-rose-600"></i> Pre-PDF-Download &amp; Action Ad Gate (Ad First, Then Download)
+                                    </h5>
+                                    <p class="text-[10px] text-neutral-500">Shows a sponsored ad overlay before completing PDF downloads &amp; JSON backups, with automatic countdown and safe fallback so downloads never get stuck.</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span id="adm-action-ad-count-pill" class="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-mono font-black text-[10px]">0 Action Ads Shown</span>
+                                    <button type="button" onclick="previewActionInterceptAdGate()" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] shadow-xs">Preview Action Ad</button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                                <label class="p-2.5 rounded-xl bg-white dark:bg-neutral-900 border flex items-center justify-between cursor-pointer font-black">
+                                    <span>Enable Pre-PDF Ad Gate</span>
+                                    <input type="checkbox" id="admin-action-ad-enabled" checked onchange="saveFullMonetizationStudio(true)" class="w-4 h-4 accent-indigo-600">
+                                </label>
+                                <div>
+                                    <label class="block text-[9.5px] font-black uppercase text-neutral-500 mb-1">Ad Countdown (Seconds)</label>
+                                    <input type="number" id="admin-action-ad-seconds" min="1" max="15" value="4" class="w-full p-2 rounded-xl bg-white dark:bg-neutral-900 border font-black text-indigo-600">
+                                </div>
+                                <div>
+                                    <label class="block text-[9.5px] font-black uppercase text-neutral-500 mb-1">Action Ad Network</label>
+                                    <select id="admin-action-ad-network" class="w-full p-2 rounded-xl bg-white dark:bg-neutral-900 border font-bold">
+                                        <option value="auto">Auto / Hybrid (AdMob + Adsterra)</option>
+                                        <option value="admob">Google AdMob / AdSense</option>
+                                        <option value="adsterra">Adsterra / Custom Script</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[9.5px] font-black uppercase text-neutral-500 mb-1">Action Ad Slot ID (Optional)</label>
+                                    <input type="text" id="admin-action-ad-slot-id" placeholder="e.g. 9876543210" class="w-full p-2 rounded-xl bg-white dark:bg-neutral-900 border font-mono">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[9.5px] font-black uppercase text-neutral-500 mb-1">Custom Action / Pre-PDF Ad HTML or Adsterra Banner Script (Optional)</label>
+                                <textarea id="admin-action-ad-html" rows="2" placeholder="Paste custom HTML/Adsterra script for the Pre-PDF-Download modal (falls back to High-Value AdSense/Adsterra banner if blank)..." class="w-full p-2 rounded-xl bg-white dark:bg-neutral-900 border font-mono text-[10.5px]"></textarea>
+                            </div>
                         </div>
 
                         <!-- Screen Traffic & High-Value Ad Analytics Panel -->
@@ -3792,14 +3839,14 @@
                                     <select id="adm-ad-zone-screen-filter" onchange="renderAdminMonetizationStudio()" class="p-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 border font-bold text-[10px]">
                                         <option value="ALL">All Screens &amp; Between-Box Slots</option>
                                         <option value="dashboard">Dashboard (6 Slots)</option>
-                                        <option value="udhar">Udhar Khata (4 Slots)</option>
-                                        <option value="milk">Milk Ledger (4 Slots)</option>
-                                        <option value="grocery">Shopping (4 Slots)</option>
-                                        <option value="transactions">History (4 Slots)</option>
-                                        <option value="vyapari">Vyapari Mandi (4 Slots)</option>
-                                        <option value="hub">Friends Split (4 Slots)</option>
-                                        <option value="analytics">Analytics &amp; Reports (4 Slots)</option>
-                                        <option value="profile">Profile Hub (4 Slots)</option>
+                                        <option value="udhar">Udhar Khata (5 Slots)</option>
+                                        <option value="milk">Milk Ledger (5 Slots)</option>
+                                        <option value="grocery">Shopping (5 Slots)</option>
+                                        <option value="transactions">History (5 Slots)</option>
+                                        <option value="vyapari">Vyapari Mandi (5 Slots)</option>
+                                        <option value="hub">Friends Split (5 Slots)</option>
+                                        <option value="analytics">Analytics &amp; Reports (5 Slots)</option>
+                                        <option value="profile">Profile Hub (5 Slots)</option>
                                         <option value="global">Global Header / Footer / AI</option>
                                     </select>
                                     <button type="button" onclick="bulkPreset4To5AdsPerPage()" class="px-2.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] transition">Preset: 5 Slots/Page</button>
@@ -4039,6 +4086,37 @@
         <div class="max-w-md mx-auto sm:max-w-xl rounded-2xl overflow-hidden text-center relative bg-white/95 dark:bg-neutral-900/95 border border-neutral-200 dark:border-neutral-800 shadow-lg p-1.5">
             <button onclick="document.getElementById('admob-slot-bottom').classList.add('hidden')" class="absolute top-1 right-2 w-6 h-6 rounded-full bg-black/60 text-white text-xs z-10 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             <div id="admob-bottom-container" class="flex items-center justify-center min-h-[52px]"></div>
+        </div>
+    </div>
+
+    <!-- Pre-PDF-Download & Action Intercept Sponsored Ad Modal (Ad First, Then Download with Safe Fallback) -->
+    <div id="action-intercept-ad-modal" class="fixed inset-0 z-[230] bg-neutral-950/85 backdrop-blur-xl hidden items-center justify-center p-3 sm:p-4">
+        <div class="glass-card w-full max-w-md p-5 sm:p-6 rounded-[2rem] shadow-2xl bg-white/95 dark:bg-neutral-900/95 border border-indigo-500/40 space-y-4 text-xs animate-pop-bounce">
+            <div class="flex items-center justify-between gap-2 pb-3 border-b border-neutral-200 dark:border-neutral-800">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-primary-600 text-white flex items-center justify-center text-sm shadow-sm">
+                        <i class="fa-solid fa-rectangle-ad"></i>
+                    </span>
+                    <div>
+                        <span class="text-[9.5px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block">Sponsored Partner Message</span>
+                        <h4 id="action-ad-modal-title" class="text-sm font-black text-neutral-900 dark:text-white">Preparing Your PDF Statement...</h4>
+                    </div>
+                </div>
+                <span id="action-ad-countdown-pill" class="px-3 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/35 font-mono font-black text-[11px]">
+                    4s
+                </span>
+            </div>
+
+            <!-- Live Ad Container (AdMob / AdSense / Adsterra / Custom HTML with Clean Fallback) -->
+            <div id="action-ad-slot-host" class="w-full min-h-[160px] rounded-2xl bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200 dark:border-neutral-700 flex items-center justify-center overflow-hidden p-2"></div>
+
+            <div class="flex items-center justify-between gap-2 pt-1">
+                <span class="text-[10.5px] font-semibold text-neutral-500">Your download starts automatically after countdown</span>
+                <button type="button" id="action-ad-continue-btn" onclick="completeActionInterceptAdGate()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary-600 to-emerald-600 hover:from-primary-700 hover:to-emerald-700 text-white font-black text-xs shadow-md flex items-center gap-1.5 transition active:scale-95">
+                    <span id="action-ad-continue-label">Continue &amp; Download</span>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -10314,25 +10392,25 @@
                 MULTI_SLOT_SCREEN_SECTIONS.forEach(({ sectionId, prefix }) => {
                     const secEl = document.getElementById(sectionId);
                     if (!secEl) return;
-                    const s1 = `admob-slot-${prefix}-box-1`;
-                    const s2 = `admob-slot-${prefix}-box-2`;
-                    if (!document.getElementById(s1)) {
-                        const div1 = document.createElement('div');
-                        div1.id = s1;
-                        div1.className = 'hidden rounded-3xl overflow-hidden text-center';
-                        const firstCard = secEl.querySelector('.glass-card');
-                        if (firstCard && firstCard.parentNode === secEl) {
-                            secEl.insertBefore(div1, firstCard);
+                    const primaryCard = secEl.querySelector('.glass-card');
+                    const cardChildren = primaryCard ? Array.from(primaryCard.children) : [];
+
+                    // Inject 3 distinct between-box ad slots inside the screen's primary card (top, mid, lower-mid) plus bottom slot = 5+ slots per page
+                    [1, 2, 3].forEach(num => {
+                        const slotId = `admob-slot-${prefix}-box-${num}`;
+                        if (document.getElementById(slotId)) return;
+                        const div = document.createElement('div');
+                        div.id = slotId;
+                        div.className = 'hidden rounded-3xl overflow-hidden text-center';
+                        if (primaryCard && cardChildren.length >= 2) {
+                            const targetIdx = Math.min(cardChildren.length - 1, Math.max(1, Math.floor((cardChildren.length * num) / 4)));
+                            primaryCard.insertBefore(div, cardChildren[targetIdx]);
+                        } else if (num === 1 && primaryCard && primaryCard.parentNode === secEl) {
+                            secEl.insertBefore(div, primaryCard);
                         } else {
-                            secEl.prepend(div1);
+                            secEl.appendChild(div);
                         }
-                    }
-                    if (!document.getElementById(s2)) {
-                        const div2 = document.createElement('div');
-                        div2.id = s2;
-                        div2.className = 'hidden rounded-3xl overflow-hidden text-center';
-                        secEl.appendChild(div2);
-                    }
+                    });
                 });
             } catch (e) {}
         }
@@ -10364,7 +10442,7 @@
                 adminConfig.zoneConfigs = {};
             }
             MULTI_SLOT_SCREEN_SECTIONS.forEach(({ screen, prefix }) => {
-                [1, 2].forEach(num => {
+                [1, 2, 3].forEach(num => {
                     const zKey = `${prefix}_box_${num}`;
                     if (!MONETIZATION_ZONES_CATALOG.some(z => z.key === zKey)) {
                         MONETIZATION_ZONES_CATALOG.push({
@@ -10374,7 +10452,7 @@
                             icon: 'fa-rectangle-ad',
                             defaultEnabled: true,
                             defaultNetwork: 'auto',
-                            defaultFormat: num === 1 ? 'high-value' : 'native',
+                            defaultFormat: num === 1 ? 'high-value' : (num === 2 ? 'native' : 'standard'),
                             defaultWidth: '100%',
                             defaultHeight: 90,
                             slots: [`admob-slot-${prefix}-box-${num}`]
@@ -10396,7 +10474,7 @@
                         customWidthPx: 728,
                         customHeightPx: z.defaultHeight || 90,
                         showBorder: true,
-                        showLabel: false,
+                        showLabel: true,
                         customSlotId: '',
                         customHtml: ''
                     };
@@ -10409,17 +10487,37 @@
                     if (!cfg.customWidthPx || Number(cfg.customWidthPx) < 120) cfg.customWidthPx = 728;
                     if (!cfg.customHeightPx || Number(cfg.customHeightPx) < 30) cfg.customHeightPx = z.defaultHeight || 90;
                     if (cfg.showBorder === undefined) cfg.showBorder = true;
-                    if (cfg.showLabel === undefined) cfg.showLabel = false;
+                    if (cfg.showLabel === undefined) cfg.showLabel = true;
                     if (cfg.customSlotId === undefined) cfg.customSlotId = '';
                     if (cfg.customHtml === undefined) cfg.customHtml = '';
                 }
             });
             if (adminConfig.adsMasterEnabled === undefined) adminConfig.adsMasterEnabled = true;
+            if (adminConfig.adShowSlotFrames === undefined) adminConfig.adShowSlotFrames = true;
             if (!adminConfig.adFrequencyCap || Number(adminConfig.adFrequencyCap) < 1) adminConfig.adFrequencyCap = 50;
             if (adminConfig.adCooldownSec === undefined) adminConfig.adCooldownSec = 15;
             if (adminConfig.adHideForPro === undefined) adminConfig.adHideForPro = false;
             if (adminConfig.adAutoPrioritizeTopScreen === undefined) adminConfig.adAutoPrioritizeTopScreen = true;
             if (!adminConfig.adManualBoostScreen) adminConfig.adManualBoostScreen = 'auto';
+
+            if (!adminConfig.actionAdConfig || typeof adminConfig.actionAdConfig !== 'object') {
+                adminConfig.actionAdConfig = {
+                    enabled: true,
+                    countdownSeconds: 4,
+                    network: 'auto',
+                    slotId: '',
+                    customHtml: '',
+                    triggeredCount: 0
+                };
+            }
+            const aac = adminConfig.actionAdConfig;
+            if (aac.enabled === undefined) aac.enabled = true;
+            if (!aac.countdownSeconds || Number(aac.countdownSeconds) < 1) aac.countdownSeconds = 4;
+            if (!aac.network) aac.network = 'auto';
+            if (aac.slotId === undefined) aac.slotId = '';
+            if (aac.customHtml === undefined) aac.customHtml = '';
+            if (aac.triggeredCount === undefined) aac.triggeredCount = 0;
+
             return adminConfig;
         }
 
@@ -10560,6 +10658,7 @@
         function saveFullMonetizationStudio(silentToast = false) {
             ensureMonetizationStudioConfig();
             const masterCb = document.getElementById('admin-ads-master-enabled');
+            const frameCb = document.getElementById('admin-ad-show-slot-frames');
             const freqInp = document.getElementById('admin-ad-freq-cap');
             const coolInp = document.getElementById('admin-ad-cooldown-sec');
             const hideProCb = document.getElementById('admin-ad-hide-for-pro');
@@ -10567,49 +10666,57 @@
             const manualBoostSel = document.getElementById('admin-ad-manual-boost-screen');
 
             if (masterCb) adminConfig.adsMasterEnabled = !!masterCb.checked;
-            if (freqInp) adminConfig.adFrequencyCap = Math.max(1, parseInt(freqInp.value, 10) || 25);
+            if (frameCb) adminConfig.adShowSlotFrames = !!frameCb.checked;
+            if (freqInp) adminConfig.adFrequencyCap = Math.max(1, parseInt(freqInp.value, 10) || 50);
             if (coolInp) adminConfig.adCooldownSec = Math.max(0, parseInt(coolInp.value, 10) || 0);
             if (hideProCb) adminConfig.adHideForPro = !!hideProCb.checked;
             if (autoTopCb) adminConfig.adAutoPrioritizeTopScreen = !!autoTopCb.checked;
             if (manualBoostSel) adminConfig.adManualBoostScreen = manualBoostSel.value || 'auto';
+
+            const aac = adminConfig.actionAdConfig;
+            const actEnCb = document.getElementById('admin-action-ad-enabled');
+            const actSecInp = document.getElementById('admin-action-ad-seconds');
+            const actNetSel = document.getElementById('admin-action-ad-network');
+            const actSlotInp = document.getElementById('admin-action-ad-slot-id');
+            const actHtmlInp = document.getElementById('admin-action-ad-html');
+            if (actEnCb) aac.enabled = !!actEnCb.checked;
+            if (actSecInp) aac.countdownSeconds = Math.min(15, Math.max(1, parseInt(actSecInp.value, 10) || 4));
+            if (actNetSel) aac.network = actNetSel.value || 'auto';
+            if (actSlotInp) aac.slotId = actSlotInp.value.trim();
+            if (actHtmlInp) aac.customHtml = actHtmlInp.value;
 
             safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
             renderAdminMonetizationStudio();
             renderAdsterraSlots();
             renderAdmobSlots();
             saveAllAdminChangesLive();
-            if (!silentToast) showToast('Monetization Studio & High-Value Ad Targeting saved live!');
+            if (!silentToast) showToast('Monetization Studio, 5-Slot Layout & Action Ad Gate saved live!');
         }
 
         function renderAdminMonetizationStudio() {
             ensureMonetizationStudioConfig();
             if (document.getElementById('admin-ads-master-enabled')) document.getElementById('admin-ads-master-enabled').checked = adminConfig.adsMasterEnabled !== false;
-            if (document.getElementById('admin-ad-freq-cap')) document.getElementById('admin-ad-freq-cap').value = adminConfig.adFrequencyCap || 25;
-            if (document.getElementById('admin-ad-cooldown-sec')) document.getElementById('admin-ad-cooldown-sec').value = adminConfig.adCooldownSec ?? 30;
+            if (document.getElementById('admin-ad-show-slot-frames')) document.getElementById('admin-ad-show-slot-frames').checked = adminConfig.adShowSlotFrames !== false;
+            if (document.getElementById('admin-ad-freq-cap')) document.getElementById('admin-ad-freq-cap').value = adminConfig.adFrequencyCap || 50;
+            if (document.getElementById('admin-ad-cooldown-sec')) document.getElementById('admin-ad-cooldown-sec').value = adminConfig.adCooldownSec ?? 15;
             if (document.getElementById('admin-ad-hide-for-pro')) document.getElementById('admin-ad-hide-for-pro').checked = !!adminConfig.adHideForPro;
             if (document.getElementById('admin-ad-auto-top-screen')) document.getElementById('admin-ad-auto-top-screen').checked = adminConfig.adAutoPrioritizeTopScreen !== false;
             if (document.getElementById('admin-ad-manual-boost-screen')) document.getElementById('admin-ad-manual-boost-screen').value = adminConfig.adManualBoostScreen || 'auto';
 
-            if (document.getElementById('admin-admob-pub-id')) document.getElementById('admin-admob-pub-id').value = adminConfig.admobPubId || '';
-            if (document.getElementById('admin-admob-slot-id')) document.getElementById('admin-admob-slot-id').value = adminConfig.admobSlotId || '';
-            if (document.getElementById('admin-admob-native-slot-id')) document.getElementById('admin-admob-native-slot-id').value = adminConfig.admobNativeSlotId || '';
-            if (document.getElementById('admin-admob-highvalue-slot-id')) document.getElementById('admin-admob-highvalue-slot-id').value = adminConfig.admobHighValueSlotId || '';
-            if (document.getElementById('admin-admob-custom-html')) document.getElementById('admin-admob-custom-html').value = adminConfig.admobCustomHtml || '';
-
-            if (document.getElementById('admin-adsterra-enabled')) document.getElementById('admin-adsterra-enabled').checked = adminConfig.adsterraEnabled !== false;
-            if (document.getElementById('admin-adsterra-top-code')) document.getElementById('admin-adsterra-top-code').value = adminConfig.adsterraTopCode || '';
-            if (document.getElementById('admin-adsterra-feed-code')) document.getElementById('admin-adsterra-feed-code').value = adminConfig.adsterraFeedCode || '';
-            if (document.getElementById('admin-adsterra-footer-code')) document.getElementById('admin-adsterra-footer-code').value = adminConfig.adsterraFooterCode || '';
-            if (document.getElementById('admin-adsterra-direct-url')) document.getElementById('admin-adsterra-direct-url').value = adminConfig.adsterraDirectUrl || '';
+            const aac = adminConfig.actionAdConfig || {};
+            if (document.getElementById('admin-action-ad-enabled')) document.getElementById('admin-action-ad-enabled').checked = aac.enabled !== false;
+            if (document.getElementById('admin-action-ad-seconds')) document.getElementById('admin-action-ad-seconds').value = aac.countdownSeconds || 4;
+            if (document.getElementById('admin-action-ad-network')) document.getElementById('admin-action-ad-network').value = aac.network || 'auto';
+            if (document.getElementById('admin-action-ad-slot-id')) document.getElementById('admin-action-ad-slot-id').value = aac.slotId || '';
+            if (document.getElementById('admin-action-ad-html')) document.getElementById('admin-action-ad-html').value = aac.customHtml || '';
+            if (document.getElementById('adm-action-ad-count-pill')) document.getElementById('adm-action-ad-count-pill').textContent = `${Number(aac.triggeredCount) || 0} Action Ads Shown`;
 
             const { ranked, topScreen } = getTopViewedScreenInfo();
             const boostedScreenKey = (adminConfig.adManualBoostScreen && adminConfig.adManualBoostScreen !== 'auto')
                 ? adminConfig.adManualBoostScreen
                 : topScreen.key;
-
-            const topPill = document.getElementById('adm-top-viewed-screen-pill');
-            if (topPill) {
-                topPill.textContent = `🏆 #1 Top Screen: ${topScreen.label} (${topScreen.views} views • ${topScreen.sharePct}%)`;
+            if (document.getElementById('adm-top-viewed-screen-pill')) {
+                document.getElementById('adm-top-viewed-screen-pill').textContent = `🏆 #1 Top Screen: ${topScreen.label} (${topScreen.views} views)`;
             }
 
             const analyticsBox = document.getElementById('admin-screen-analytics-table');
@@ -10780,8 +10887,9 @@
                         const canUseCustomHtml = (resolvedNet === 'custom_html' || !!customZoneHtml) && !!customZoneHtml;
                         const canUseAdMob = (resolvedNet === 'admob' || resolvedNet === 'hybrid') && (pubId || customAdSenseHtml || customZoneSlot);
                         const canUseAdsterra = (resolvedNet === 'adsterra' || resolvedNet === 'hybrid') && adsterraEnabled && (adsterraTop || adsterraFeed || adsterraFooter || customZoneHtml);
+                        const showSlotFrame = adminConfig.adShowSlotFrames !== false;
 
-                        if (!canUseCustomHtml && !canUseAdMob && !canUseAdsterra) {
+                        if (!canUseCustomHtml && !canUseAdMob && !canUseAdsterra && !showSlotFrame) {
                             container.classList.add('hidden');
                             container.innerHTML = '';
                             delete container.dataset.adSignature;
@@ -10793,9 +10901,9 @@
                             ? adsterraFooter
                             : (effectiveFormat === 'native' ? adsterraFeed : adsterraTop));
 
-                        const sig = `${resolvedNet}|${effectiveFormat}|${widthStyle}|${heightPx}|${zCfg.showBorder}|${zCfg.showLabel}|${pubId}|${chosenSlotId}|${chosenAdsterraCode.slice(0, 40)}`;
+                        const sig = `${resolvedNet}|${effectiveFormat}|${widthStyle}|${heightPx}|${zCfg.showBorder}|${zCfg.showLabel}|${showSlotFrame}|${pubId}|${chosenSlotId}|${chosenAdsterraCode.slice(0, 40)}`;
                         container.classList.remove('hidden');
-                        container.style.cssText = `${widthStyle} min-height: ${heightPx}px; margin-top: 0.75rem; margin-bottom: 0.75rem; overflow: hidden; border-radius: 1.5rem; ${zCfg.showBorder !== false ? 'border: 1px solid rgba(148, 163, 184, 0.28); background: rgba(255,255,255,0.55);' : ''}`;
+                        container.style.cssText = `${widthStyle} min-height: ${heightPx}px; margin-top: 0.75rem; margin-bottom: 0.75rem; overflow: hidden; border-radius: 1.5rem; ${zCfg.showBorder !== false ? 'border: 1px dashed rgba(99, 102, 241, 0.35); background: rgba(248, 250, 252, 0.72);' : ''}`;
 
                         if (container.dataset.adSignature === sig) return;
                         container.dataset.adSignature = sig;
@@ -10803,7 +10911,7 @@
                         _lastSlotRenderedAt[slotDomId] = now;
 
                         const labelBadgeHtml = zCfg.showLabel
-                            ? `<div style="font-size: 9px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #94a3b8; padding: 2px 8px; text-align: right;">Sponsored</div>`
+                            ? `<div style="font-size: 9px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #64748b; padding: 3px 10px; display:flex; align-items:center; justify-content:space-between; border-bottom: 1px dashed rgba(148,163,184,0.2);"><span>${z.label}</span><span>Sponsored</span></div>`
                             : '';
 
                         const targetInner = slotDomId === 'admob-slot-bottom'
@@ -10831,6 +10939,20 @@
                                 `;
                                 try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
                             }
+                        } else if (showSlotFrame) {
+                            targetInner.innerHTML = `
+                                ${labelBadgeHtml}
+                                <div style="width:100%; min-height:${Math.max(44, heightPx - 22)}px; padding: 8px 14px; display:flex; align-items:center; justify-content:space-between; gap: 10px; text-align:left;">
+                                    <div style="display:flex; align-items:center; gap: 10px; min-width:0;">
+                                        <span style="width:30px; height:30px; border-radius:10px; background:rgba(59,110,245,0.12); color:#2453d6; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-rectangle-ad"></i></span>
+                                        <div style="min-width:0;">
+                                            <div style="font-size:11px; font-weight:900; color:#1e293b;">NeoKhata Smart Ad Slot (${zCfg.widthMode === 'custom' ? `${zCfg.customWidthPx}px` : '100%'} × ${heightPx}px)</div>
+                                            <div style="font-size:9.5px; font-weight:600; color:#64748b;">Network: ${resolvedNet.toUpperCase()} • ${effectiveFormat.toUpperCase()}</div>
+                                        </div>
+                                    </div>
+                                    <span style="padding:3px 9px; border-radius:999px; background:rgba(16,185,129,0.12); color:#047857; font-size:9px; font-weight:900; text-transform:uppercase; flex-shrink:0;">Active Slot</span>
+                                </div>
+                            `;
                         }
                     });
                 });
@@ -15453,89 +15575,293 @@ ${JSON.stringify(liveSnapshot)}`;
         function closePaymentAppChooser() {
             closeUpiQrModal();
         }
-        function runWithLiveRewardedAd(cb) {
-            if (typeof cb === 'function') cb();
-        }
-        function closeLiveInterstitialAd() {}
-        function renderAdmobSlots() {}
 
-        function saveAllAdminChangesLive() {
-            localStorage.setItem('khataflow_admin_config', JSON.stringify(adminConfig));
-            localStorage.setItem('khataflow_sponsored_ads', JSON.stringify(SPONSORED_ADS_LIST));
-            if (typeof window.publishAdminBroadcastToCloud === 'function') {
-                window.publishAdminBroadcastToCloud({ adminConfig, sponsoredAds: SPONSORED_ADS_LIST });
+        let _pendingActionAdCallback = null;
+        let _actionAdCountdownInterval = null;
+        let _actionAdFallbackTimeout = null;
+
+        function completeActionInterceptAdGate() {
+            try {
+                if (_actionAdCountdownInterval) {
+                    clearInterval(_actionAdCountdownInterval);
+                    _actionAdCountdownInterval = null;
+                }
+                if (_actionAdFallbackTimeout) {
+                    clearTimeout(_actionAdFallbackTimeout);
+                    _actionAdFallbackTimeout = null;
+                }
+                const modal = document.getElementById('action-intercept-ad-modal');
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+                const cb = _pendingActionAdCallback;
+                _pendingActionAdCallback = null;
+                if (typeof cb === 'function') {
+                    Promise.resolve(cb()).catch(() => {});
+                }
+            } catch (e) {
+                const cb = _pendingActionAdCallback;
+                _pendingActionAdCallback = null;
+                if (typeof cb === 'function') cb();
             }
-            showToast('All Admin changes saved & published live!');
         }
 
-        function resetAdminCustomizationsToDefault() {
-            SPONSORED_ADS_LIST = [...DEFAULT_SPONSORED_ADS];
-            localStorage.setItem('khataflow_sponsored_ads', JSON.stringify(SPONSORED_ADS_LIST));
-            applyAdminConfigToUI();
-            renderAdminAdsList();
-            showToast('Admin settings reset to defaults');
+        function previewActionInterceptAdGate() {
+            runWithLiveRewardedAd(() => {
+                showToast('Action / Pre-PDF Ad Gate completed cleanly!');
+            }, 'Preview: Pre-PDF-Download Ad Gate');
         }
 
+        function runWithLiveRewardedAd(cb, actionLabel = 'Preparing Your PDF Download...') {
+            try {
+                ensureMonetizationStudioConfig();
+                const masterOn = adminConfig.adsMasterEnabled !== false;
+                const hidePro = !!adminConfig.adHideForPro && typeof getUserSubscriptionAccess === 'function' && getUserSubscriptionAccess().isPro;
+                const aac = adminConfig.actionAdConfig || {};
+                const modal = document.getElementById('action-intercept-ad-modal');
+                const host = document.getElementById('action-ad-slot-host');
+
+                if (!masterOn || hidePro || aac.enabled === false || !modal || !host) {
+                    if (typeof cb === 'function') cb();
+                    return;
+                }
+
+                // Increment action ad trigger telemetry safely
+                aac.triggeredCount = (Number(aac.triggeredCount) || 0) + 1;
+                safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
+                if (document.getElementById('adm-action-ad-count-pill')) {
+                    document.getElementById('adm-action-ad-count-pill').textContent = `${aac.triggeredCount} Action Ads Shown`;
+                }
+
+                _pendingActionAdCallback = typeof cb === 'function' ? cb : null;
+                if (_actionAdCountdownInterval) clearInterval(_actionAdCountdownInterval);
+                if (_actionAdFallbackTimeout) clearTimeout(_actionAdFallbackTimeout);
+
+                let secLeft = Math.min(15, Math.max(1, Number(aac.countdownSeconds) || 4));
+                if (document.getElementById('action-ad-modal-title')) document.getElementById('action-ad-modal-title').textContent = actionLabel;
+                if (document.getElementById('action-ad-countdown-pill')) document.getElementById('action-ad-countdown-pill').textContent = `${secLeft}s`;
+                if (document.getElementById('action-ad-continue-label')) document.getElementById('action-ad-continue-label').textContent = `Skip & Download (${secLeft}s)`;
+
+                // Render configured ad inside the modal host with guaranteed safe fallback
+                const pubId = String(adminConfig.admobPubId || '').trim();
+                const slotId = String(aac.slotId || adminConfig.admobHighValueSlotId || adminConfig.admobSlotId || '').trim();
+                const customHtml = String(aac.customHtml || '').trim();
+                const adsterraCode = String(adminConfig.adsterraFeedCode || adminConfig.adsterraTopCode || '').trim();
+                const net = aac.network || 'auto';
+
+                if (customHtml) {
+                    host.innerHTML = '<div class="action-ad-inner" style="width:100%; min-height:150px; display:flex; align-items:center; justify-content:center;"></div>';
+                    renderSandboxedAdsterraFrame(host.querySelector('.action-ad-inner'), customHtml);
+                } else if ((net === 'adsterra' || (net === 'auto' && adsterraCode && !slotId)) && adsterraCode) {
+                    host.innerHTML = '<div class="action-ad-inner" style="width:100%; min-height:150px; display:flex; align-items:center; justify-content:center;"></div>';
+                    renderSandboxedAdsterraFrame(host.querySelector('.action-ad-inner'), adsterraCode);
+                } else if (pubId && slotId) {
+                    ensureGoogleAdSenseScriptLoaded(pubId);
+                    host.innerHTML = `
+                        <ins class="adsbygoogle"
+                             style="display:block; width:100%; min-height:150px;"
+                             data-ad-client="${pubId}"
+                             data-ad-slot="${slotId}"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                    `;
+                    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+                } else {
+                    const directSmartlink = String(adminConfig.adsterraDirectUrl || '').trim();
+                    host.innerHTML = `
+                        <div class="p-4 text-center space-y-2">
+                            <div class="w-11 h-11 mx-auto rounded-2xl bg-gradient-to-tr from-primary-600 to-emerald-500 text-white flex items-center justify-center text-lg shadow-md">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <div class="text-sm font-black text-neutral-900 dark:text-white">NeoKhata Smart Financial OS</div>
+                            <p class="text-[11px] text-neutral-500 max-w-xs mx-auto">Upgrade to VIP Pro for ad-free instant PDF statements, AI Advisor, and unlimited cloud ledgers.</p>
+                            ${directSmartlink ? `<a href="${directSmartlink.replace(/"/g, '&quot;')}" target="_blank" rel="noopener noreferrer" class="inline-block px-3.5 py-1.5 rounded-xl bg-indigo-600 text-white font-black text-[10px]">View Partner Offer ↗</a>` : ''}
+                        </div>
+                    `;
+                }
+
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+
+                _actionAdCountdownInterval = setInterval(() => {
+                    secLeft -= 1;
+                    if (secLeft <= 0) {
+                        completeActionInterceptAdGate();
+                    } else {
+                        if (document.getElementById('action-ad-countdown-pill')) document.getElementById('action-ad-countdown-pill').textContent = `${secLeft}s`;
+                        if (document.getElementById('action-ad-continue-label')) document.getElementById('action-ad-continue-label').textContent = `Skip & Download (${secLeft}s)`;
+                    }
+                }, 1000);
+
+                // Absolute safety timeout so a PDF download can never hang even if timers stall
+                _actionAdFallbackTimeout = setTimeout(() => {
+                    completeActionInterceptAdGate();
+                }, (secLeft + 3) * 1000);
+            } catch (e) {
+                if (typeof cb === 'function') cb();
+            }
+        }
+        function closeLiveInterstitialAd() {
+            completeActionInterceptAdGate();
+        }
         function renderAdminAdsList() {
             const box = document.getElementById('admin-ads-list');
             if (!box) return;
-            box.innerHTML = SPONSORED_ADS_LIST.map((ad, idx) => `
-                <div class="p-3 rounded-2xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 flex items-center justify-between gap-2.5 text-xs">
+            const list = Array.isArray(SPONSORED_ADS_LIST) ? SPONSORED_ADS_LIST : [];
+            box.innerHTML = list.length ? list.map((ad, idx) => `
+                <div class="p-3 rounded-2xl bg-neutral-100/90 dark:bg-neutral-800/90 border border-neutral-200 dark:border-neutral-700 flex items-center justify-between gap-2.5 text-xs">
                     <div class="flex items-center gap-2.5 min-w-0">
-                        ${ad.imageUrl
-                            ? `<img src="${ad.imageUrl}" alt="Slide ${idx + 1}" class="w-12 h-9 rounded-xl object-cover flex-shrink-0 border border-neutral-300 dark:border-neutral-700" onerror="this.style.display='none'">`
-                            : `<div class="w-12 h-9 rounded-xl bg-gradient-to-r ${ad.gradient || 'from-primary-700 via-primary-600 to-emerald-600'} text-white font-black text-[10px] flex items-center justify-center flex-shrink-0">#${idx + 1}</div>`}
+                        <span class="w-7 h-7 rounded-xl bg-primary-600/15 text-primary-600 font-black flex items-center justify-center flex-shrink-0">#${idx + 1}</span>
                         <div class="min-w-0">
-                            <div class="flex items-center gap-1.5">
-                                <span class="px-1.5 py-0.5 rounded bg-primary-600/10 text-primary-600 font-black text-[9px] uppercase">${ad.badge || 'FEATURED'}</span>
-                                <span class="font-black truncate text-neutral-900 dark:text-white">${ad.title || 'Banner Slide'}</span>
-                            </div>
-                            <div class="text-[10px] text-neutral-500 truncate mt-0.5">${ad.subtitle || ''} • Target: <strong>${ad.targetTab || 'dashboard'}</strong></div>
+                            <div class="font-black text-neutral-900 dark:text-white truncate">${ad.title || 'Sponsored Slide'}</div>
+                            <div class="text-[10px] text-neutral-500 truncate">${ad.badge || 'FEATURED'} • Target: ${ad.targetTab || 'dashboard'}</div>
                         </div>
                     </div>
                     <div class="flex items-center gap-1.5 flex-shrink-0">
-                        <button type="button" onclick="openEditAdModal(${idx})" class="px-2.5 py-1.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-[11px] transition">Edit</button>
-                        <button type="button" onclick="deleteAdminAdSlide(${idx})" class="p-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-600 text-rose-600 hover:text-white transition" title="Delete Slide"><i class="fa-solid fa-trash"></i></button>
+                        <button type="button" onclick="openEditAdminAdSlide(${idx})" class="px-2.5 py-1.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-[10px]">Edit</button>
+                        <button type="button" onclick="deleteAdminAdSlide(${idx})" class="p-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-600 text-rose-600 hover:text-white text-[10px]" title="Delete Slide"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
-            `).join('') || '<div class="text-center py-4 text-xs text-neutral-400">No slides added.</div>';
+            `).join('') : '<div class="text-center py-4 text-xs text-neutral-400">No sponsored banner slides yet.</div>';
         }
-
         function openAddAdModal() {
-            document.getElementById('admin-banner-modal-title').innerHTML = '<i class="fa-solid fa-plus text-primary-600"></i> Add New Sponsored Banner Slide';
-            document.getElementById('adm-slide-edit-index').value = '-1';
-            document.getElementById('adm-slide-badge').value = 'FEATURED';
-            document.getElementById('adm-slide-target').value = 'dashboard';
-            document.getElementById('adm-slide-title').value = '';
-            document.getElementById('adm-slide-subtitle').value = '';
-            document.getElementById('adm-slide-cta').value = 'Explore Now';
-            document.getElementById('adm-slide-gradient').value = 'from-primary-700 via-primary-600 to-emerald-600';
-            document.getElementById('adm-slide-image-url').value = '';
-            document.getElementById('adm-slide-hires-url').value = '';
-            document.getElementById('adm-slide-preview-wrap')?.classList.add('hidden');
+            const titleEl = document.getElementById('admin-banner-modal-title');
+            if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-images text-primary-600"></i> Add Sponsored Slide';
+            if (document.getElementById('adm-slide-edit-index')) document.getElementById('adm-slide-edit-index').value = '-1';
+            if (document.getElementById('adm-slide-badge')) document.getElementById('adm-slide-badge').value = 'FEATURED';
+            if (document.getElementById('adm-slide-target')) document.getElementById('adm-slide-target').value = 'dashboard';
+            if (document.getElementById('adm-slide-title')) document.getElementById('adm-slide-title').value = '';
+            if (document.getElementById('adm-slide-subtitle')) document.getElementById('adm-slide-subtitle').value = '';
+            if (document.getElementById('adm-slide-cta')) document.getElementById('adm-slide-cta').value = 'Explore Now';
+            if (document.getElementById('adm-slide-gradient')) document.getElementById('adm-slide-gradient').value = 'from-primary-700 via-primary-600 to-emerald-600';
+            if (document.getElementById('adm-slide-image-url')) document.getElementById('adm-slide-image-url').value = '';
+            if (document.getElementById('adm-slide-hires-url')) document.getElementById('adm-slide-hires-url').value = '';
+            previewAdminBannerImage('');
             document.getElementById('admin-banner-slide-modal')?.classList.replace('hidden', 'flex');
         }
-        function openEditAdModal(idx) {
-            const slide = SPONSORED_ADS_LIST[idx];
+        function openEditAdminAdSlide(idx) {
+            const slide = SPONSORED_ADS_LIST?.[idx];
             if (!slide) return;
-            document.getElementById('admin-banner-modal-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-primary-600"></i> Edit Sponsored Slide #${idx + 1}`;
-            document.getElementById('adm-slide-edit-index').value = String(idx);
-            document.getElementById('adm-slide-badge').value = slide.badge || 'FEATURED';
-            document.getElementById('adm-slide-target').value = slide.targetTab || 'dashboard';
-            document.getElementById('adm-slide-title').value = slide.title || '';
-            document.getElementById('adm-slide-subtitle').value = slide.subtitle || '';
-            document.getElementById('adm-slide-cta').value = slide.ctaText || 'Explore Now';
-            document.getElementById('adm-slide-gradient').value = slide.gradient || 'from-primary-700 via-primary-600 to-emerald-600';
-            document.getElementById('adm-slide-image-url').value = slide.imageUrl || '';
-            document.getElementById('adm-slide-hires-url').value = slide.hiResUrl || '';
-            previewAdminBannerImage(slide.hiResUrl || slide.imageUrl || '');
+            const titleEl = document.getElementById('admin-banner-modal-title');
+            if (titleEl) titleEl.innerHTML = `<i class="fa-solid fa-images text-primary-600"></i> Edit Slide #${idx + 1}`;
+            if (document.getElementById('adm-slide-edit-index')) document.getElementById('adm-slide-edit-index').value = String(idx);
+            if (document.getElementById('adm-slide-badge')) document.getElementById('adm-slide-badge').value = slide.badge || 'FEATURED';
+            if (document.getElementById('adm-slide-target')) document.getElementById('adm-slide-target').value = slide.targetTab || 'dashboard';
+            if (document.getElementById('adm-slide-title')) document.getElementById('adm-slide-title').value = slide.title || '';
+            if (document.getElementById('adm-slide-subtitle')) document.getElementById('adm-slide-subtitle').value = slide.subtitle || '';
+            if (document.getElementById('adm-slide-cta')) document.getElementById('adm-slide-cta').value = slide.ctaText || 'Explore Now';
+            if (document.getElementById('adm-slide-gradient')) document.getElementById('adm-slide-gradient').value = slide.gradient || 'from-primary-700 via-primary-600 to-emerald-600';
+            if (document.getElementById('adm-slide-image-url')) document.getElementById('adm-slide-image-url').value = slide.imageUrl || '';
+            if (document.getElementById('adm-slide-hires-url')) document.getElementById('adm-slide-hires-url').value = slide.hiResUrl || slide.imageUrl || '';
+            previewAdminBannerImage(slide.imageUrl || '');
             document.getElementById('admin-banner-slide-modal')?.classList.replace('hidden', 'flex');
         }
         function closeAdminBannerModal() {
-            const modal = document.getElementById('admin-banner-slide-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
+            document.getElementById('admin-banner-slide-modal')?.classList.replace('flex', 'hidden');
+        }
+        function saveAllAdminChangesLive() {
+            safeLocalStorageSet('khataflow_admin_config', JSON.stringify(adminConfig));
+            safeLocalStorageSet('khataflow_sponsored_ads', JSON.stringify(SPONSORED_ADS_LIST));
+            updateAdminDashboardMetrics();
+            if (typeof window.publishAdminBroadcastToCloud === 'function') {
+                window.publishAdminBroadcastToCloud({ adminConfig, sponsoredAds: SPONSORED_ADS_LIST }).catch(() => {});
+            }
+        }
+        function resetAdminCustomizationsToDefault() {
+            localStorage.removeItem('khataflow_admin_config');
+            localStorage.removeItem('khataflow_sponsored_ads');
+            SPONSORED_ADS_LIST = [...DEFAULT_SPONSORED_ADS];
+            safeLocalStorageSet('khataflow_sponsored_ads', JSON.stringify(SPONSORED_ADS_LIST));
+            applyAdminConfigToUI();
+            renderAdminAdsList();
+            showToast('Admin customizations reset to defaults!');
+        }
+        async function exportElementToFile(elementId, fileName, format = 'pdf') {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const isPdf = format === 'pdf';
+            const runExportCore = async () => {
+                showLiveProcessOverlay({
+                    badge: isPdf ? 'PDF Generator' : 'Image Generator',
+                    title: isPdf ? 'Please Wait, Generating PDF...' : 'Please Wait, Generating Image...',
+                    subtitle: isPdf
+                        ? 'कृपया प्रतीक्षा करें, आपकी प्रोफेशनल PDF जनरेट की जा रही है...'
+                        : 'कृपया प्रतीक्षा करें, आपकी रसीद इमेज तैयार की जा रही है...',
+                    step: 'Loading high-resolution rendering engine...',
+                    progress: 35,
+                    iconClass: isPdf ? 'fa-solid fa-file-pdf fa-bounce' : 'fa-solid fa-file-image fa-bounce'
+                });
+                try {
+                    await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+                    if (isPdf) {
+                        await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+                    }
+                    updateLiveProcessOverlay({ step: 'Capturing high-clarity A4 document layout...', progress: 70 });
+                    const parentContainer = el.parentElement;
+                    const origParentStyle = parentContainer ? parentContainer.getAttribute('style') : '';
+                    if (parentContainer) {
+                        parentContainer.style.position = 'fixed';
+                        parentContainer.style.left = '0px';
+                        parentContainer.style.top = '0px';
+                        parentContainer.style.zIndex = '-50';
+                        parentContainer.style.opacity = '1';
+                        parentContainer.style.pointerEvents = 'none';
+                    }
+                    const canvas = await window.html2canvas(el, {
+                        scale: 1.45,
+                        useCORS: true,
+                        allowTaint: false,
+                        backgroundColor: '#ffffff',
+                        width: 794,
+                        windowWidth: 794,
+                        x: 0,
+                        y: 0,
+                        scrollX: 0,
+                        scrollY: 0,
+                        onclone: (clonedDoc) => {
+                            clonedDoc.querySelectorAll('img').forEach(img => {
+                                if (!img.complete || img.naturalWidth === 0) {
+                                    img.style.display = 'none';
+                                }
+                            });
+                        }
+                    });
+                    if (parentContainer) {
+                        parentContainer.setAttribute('style', origParentStyle || 'position: fixed; left: -9999px; top: -9999px; width: 794px; z-index: -1;');
+                    }
+                    const imgData = isPdf
+                        ? canvas.toDataURL('image/jpeg', 0.82)
+                        : canvas.toDataURL('image/png');
+                    updateLiveProcessOverlay({ step: 'Saving compact file to your device...', progress: 95 });
+                    if (format === 'image') {
+                        const link = document.createElement('a');
+                        link.href = imgData;
+                        link.download = `${fileName}.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        showToast('Receipt Image downloaded!');
+                    } else {
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4', compress: true });
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+                        pdf.save(`${fileName}.pdf`);
+                        showToast('PDF document downloaded!');
+                    }
+                } catch (err) {
+                    showToast('Export failed, please try again', 'error');
+                } finally {
+                    hideLiveProcessOverlay();
+                }
+            };
+
+            if (isPdf) {
+                runWithLiveRewardedAd(runExportCore, `Preparing ${fileName}.pdf...`);
+            } else {
+                await runExportCore();
             }
         }
         function previewAdminBannerImage(url) {
